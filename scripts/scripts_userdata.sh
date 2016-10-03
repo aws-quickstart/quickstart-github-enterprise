@@ -46,3 +46,5 @@ while [[ ${CONFIG_STATUS} != *'DONE'* ]]; do
   CONFIG_STATUS=`curl -k -L https://api_key:${ANSIBLE_ADMIN_PASSWD}@localhost:8443/setup/api/configcheck | awk -F, '{print $NF}' | awk -F: '{print $NF}' |tail -n1 `
 done
 rm -f ${ADMININFO} 
+
+echo "Finished AWSQuickStart Bootstraping"
