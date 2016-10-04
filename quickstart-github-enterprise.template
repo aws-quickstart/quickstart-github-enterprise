@@ -1,0 +1,450 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "GitHub Enterprise Quickstart Cloudformation Template. Created from the AWS CloudFormation Sample Template EC2InstanceWithSecurityGroupSample. **WARNING** This template creates an Amazon EC2 instance. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Mappings": {
+        "AWSRegionArch2AMI": {
+            "ap-northeast-1": {
+                "AMI": "ami-8dc211ec"
+            },
+            "ap-northeast-2": {
+                "AMI": "ami-b65386d8"
+            },
+            "ap-south-1": {
+                "AMI": "ami-85d5a0ea"
+            },
+            "ap-southeast-1": {
+                "AMI": "ami-9aab0ef9"
+            },
+            "ap-southeast-2": {
+                "AMI": "ami-1c2a1a7f"
+            },
+            "eu-central-1": {
+                "AMI": "ami-a23fc2cd"
+            },
+            "eu-west-1": {
+                "AMI": "ami-a09fe4d3"
+            },
+            "sa-east-1": {
+                "AMI": "ami-348e1d58"
+            },
+            "us-east-1": {
+                "AMI": "ami-3b78012c"
+            },
+            "us-west-1": {
+                "AMI": "ami-56eda236"
+            },
+            "us-west-2": {
+                "AMI": "ami-8961bce9"
+            }
+        }
+    },
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": "GitHubEnterprise License"
+                    },
+                    "Parameters": [
+                        "S3LicenseBucketName",
+                        "License"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "Server Configuration"
+                    },
+                    "Parameters": [
+                        "InstanceType",
+                        "KeyName",
+                        "AccessCIDROrigin",
+                        "SubnetId",
+                        "VolumeSize",
+                        "VPCId"
+                    ]
+                }
+            ],
+            "ParameterLables": {
+                "AccessCIDROrigin": {
+                    "default": "CIDR block of origin connections"
+                },
+                "S3LicenseBucketName": {
+                    "default": "S3 bucket location of GitHub license"
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "AZ": {
+            "Description": "Availability Zone of the newly created EC2 instance",
+            "Value": {
+                "Fn::GetAtt": [
+                    "EC2Instance",
+                    "AvailabilityZone"
+                ]
+            }
+        },
+        "EC2InstanceId": {
+            "Description": "InstanceId of the newly created EC2 instance",
+            "Value": {
+                "Ref": "EC2Instance"
+            }
+        },
+        "EC2InstanceProfileId": {
+            "Description": "ID of the Instance Profile for Elastic Beanstalk",
+            "Value": {
+                "Ref": "EC2InstanceProfile"
+            }
+        },
+        "EC2RoleId": {
+            "Description": "ID of the Role for Elastic Beanstalk",
+            "Value": {
+                "Ref": "EC2InstanceRole"
+            }
+        },
+        "PublicDNS": {
+            "Description": "Public DNSName of the newly created EC2 instance",
+            "Value": {
+                "Fn::GetAtt": [
+                    "EC2Instance",
+                    "PublicDnsName"
+                ]
+            }
+        },
+        "PublicIP": {
+            "Description": "Public IP address of the newly created EC2 instance",
+            "Value": {
+                "Fn::GetAtt": [
+                    "EC2Instance",
+                    "PublicIp"
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "AccessCIDROrigin": {
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+            "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x.",
+            "Default": "0.0.0.0/0",
+            "Description": "The IP address range that can be used to access to the EC2 instance",
+            "MaxLength": "18",
+            "MinLength": "9",
+            "Type": "String"
+        },
+        "AdminPassword": {
+            "ConstraintDescription": "Passwords must be at least 7 characters long and include at least one number and one upper case letter.",
+            "Description": "Set the Admin password for Github Enterprise",
+            "NoEcho": "True",
+            "Type": "String"
+        },
+        "InstanceType": {
+            "AllowedValues": [
+                "m3.xlarge",
+                "m3.2xlarge",
+                "m4.xlarge",
+                "m4.2xlarge",
+                "c3.2xlarge",
+                "c3.4xlarge",
+                "c3.8xlarge",
+                "c4.2xlarge",
+                "c4.4xlarge",
+                "c4.8xlarge",
+                "r3.large",
+                "r3.xlarge",
+                "r3.2xlarge",
+                "r3.4xlarge",
+                "r3.8xlarge"
+            ],
+            "ConstraintDescription": "must be a valid EC2 instance type for GitHub Enterprise: m3.xlarge, m3.2xlarge, m4.xlarge, m4.2xlarge, c3.2xlarge, c3.4xlarge, c3.8xlarge, c4.2xlarge, c4.4xlarge, c4.8xlarge, r3.large, r3.xlarge, r3.xlarge, r3.2xlarge, r3.4xlarge, or r3.8xlarge.",
+            "Default": "m3.xlarge",
+            "Description": "WebServer EC2 instance type",
+            "Type": "String"
+        },
+        "KeyName": {
+            "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+            "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "License": {
+            "Description": "GitHub Enterprise License file that is uploaded to the License S3 bucket. Sign up for a trial license here: https://enterprise.github.com/trial",
+            "Type": "String"
+        },
+        "S3LicenseBucketName": {
+            "Description": "S3 bucket where the GitHub Enterprise License is located.",
+            "Type": "String"
+        },
+        "SubnetId": {
+            "Description": "The Public subnet where the GitHub Enterprise instance will be launched",
+            "Type": "AWS::EC2::Subnet::Id"
+        },
+        "VPCId": {
+            "Description": "The VPC to launch the GitHub Enterprise server",
+            "Type": "AWS::EC2::VPC::Id"
+        },
+        "VolumeSize": {
+            "Default": "100",
+            "Description": "The size of the EBS attached volume",
+            "Type": "String"
+        }
+    },
+    "Resources": {
+        "EC2Instance": {
+            "Metadata": {
+                "AWS::CloudFormation::Init": {
+                    "config": {
+                        "files": {
+                            "/etc/gheadmin.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "github_admin_password:",
+                                            {
+                                                "Ref": "AdminPassword"
+                                            },
+                                            "\n",
+                                            "github_s3_bucket:",
+                                            {
+                                                "Ref": "S3LicenseBucketName"
+                                            },
+                                            "\n",
+                                            "github_license_file:",
+                                            {
+                                                "Ref": "License"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                },
+                                "group": "root",
+                                "mode": "000400",
+                                "user": "root"
+                            }
+                        }
+                    }
+                }
+            },
+            "Properties": {
+                "BlockDeviceMappings": [
+                    {
+                        "DeviceName": "/dev/xvdf",
+                        "Ebs": {
+                            "VolumeSize": {
+                                "Ref": "VolumeSize"
+                            },
+                            "VolumeType": "gp2"
+                        }
+                    }
+                ],
+                "EbsOptimized": "true",
+                "IamInstanceProfile": {
+                    "Ref": "EC2InstanceProfile"
+                },
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSRegionArch2AMI",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "AMI"
+                    ]
+                },
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "KeyName": {
+                    "Ref": "KeyName"
+                },
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "InstanceSecurityGroup"
+                    }
+                ],
+                "SubnetId": {
+                    "Ref": "SubnetId"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "GitHub Enterprise"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash -xe\n",
+                                "easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz \n",
+                                "wget https://bootstrap.pypa.io/get-pip.py\n",
+                                "sudo python get-pip.py\n",
+                                "sudo pip install awscli\n",
+                                "sleep 5\n",
+                                "/usr/local/bin/cfn-init ",
+                                " --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                " --resource EC2Instance ",
+                                " --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n",
+				"SRC=https://s3.amazonaws.com/quickstart-reference/quickstart-github-enterprise/latest/scripts/scripts_userdata.sh \n",
+                                "curl -L $SRC | bash \n",
+                                "/usr/local/bin/cfn-signal -e $? '",
+                                {
+                                    "Ref": "WaitforGitHubEnterpriseInstall"
+                                },
+                                "'",
+                                " \n"
+                            ]
+                        ]
+                    }
+                }
+            },
+            "Type": "AWS::EC2::Instance"
+        },
+        "EC2InstanceProfile": {
+            "Properties": {
+                "Path": "/",
+                "Roles": [
+                    {
+                        "Ref": "EC2InstanceRole"
+                    }
+                ]
+            },
+            "Type": "AWS::IAM::InstanceProfile"
+        },
+        "EC2InstanceRole": {
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "sts:AssumeRole"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+                ],
+                "Path": "/"
+            },
+            "Type": "AWS::IAM::Role"
+        },
+        "GitHubWaitCondition": {
+            "DependsOn": "EC2Instance",
+            "Properties": {
+                "Handle": {
+                    "Ref": "WaitforGitHubEnterpriseInstall"
+                },
+                "Timeout": "2000"
+            },
+            "Type": "AWS::CloudFormation::WaitCondition"
+        },
+        "InstanceSecurityGroup": {
+            "Properties": {
+                "GroupDescription": "Ports needed for GitHub Enterprise",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "22",
+                        "IpProtocol": "tcp",
+                        "ToPort": "22"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "8080",
+                        "IpProtocol": "tcp",
+                        "ToPort": "8080"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "122",
+                        "IpProtocol": "tcp",
+                        "ToPort": "122"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "1194",
+                        "IpProtocol": "udp",
+                        "ToPort": "1194"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "161",
+                        "IpProtocol": "udp",
+                        "ToPort": "161"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "443",
+                        "IpProtocol": "tcp",
+                        "ToPort": "443"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "80",
+                        "IpProtocol": "tcp",
+                        "ToPort": "80"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "9418",
+                        "IpProtocol": "tcp",
+                        "ToPort": "9418"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "25",
+                        "IpProtocol": "tcp",
+                        "ToPort": "25"
+                    },
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDROrigin"
+                        },
+                        "FromPort": "8443",
+                        "IpProtocol": "tcp",
+                        "ToPort": "8443"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "VPCId"
+                }
+            },
+            "Type": "AWS::EC2::SecurityGroup"
+        },
+        "WaitforGitHubEnterpriseInstall": {
+            "Type": "AWS::CloudFormation::WaitConditionHandle"
+        }
+    }
+}
