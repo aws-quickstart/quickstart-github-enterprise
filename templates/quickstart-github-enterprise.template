@@ -292,7 +292,7 @@
                                 },
                                 "\n",
 				"SRC=https://s3.amazonaws.com/quickstart-reference/quickstart-github-enterprise/latest/scripts/scripts_userdata.sh \n",
-                                "curl -L $SRC | bash \n",
+                                "curl -L $SRC | bash; \n",
                                 "/usr/local/bin/cfn-signal -e $? '",
                                 {
                                     "Ref": "WaitforGitHubEnterpriseInstall"
