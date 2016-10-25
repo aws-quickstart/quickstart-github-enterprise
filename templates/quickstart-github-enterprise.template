@@ -216,14 +216,6 @@
             "MinLength": "9",
             "Type": "String"
         },
-        "InitialRepository": {
-            "Description": "The initial repository to create",
-            "Type": "String"
-        },
-        "InitialOrganization": {
-            "Description": "The initial organization to hold the GitHub Enterprise repository",
-            "Type": "String"
-        },
         "AdminUserEmail": {
             "Description": "Site Admin Email address",
             "Type": "String"
@@ -242,6 +234,14 @@
             "ConstraintDescription": "Passwords must be at least 7 characters long and include at least one number and one upper case letter.",
             "Description": "Set the Console password for Github Enterprise",
             "NoEcho": "True",
+            "Type": "String"
+        },
+        "InitialOrganization": {
+            "Description": "The initial organization to hold the GitHub Enterprise repository",
+            "Type": "String"
+        },
+        "InitialRepository": {
+            "Description": "The initial repository to create",
             "Type": "String"
         },
         "InstanceType": {
