@@ -424,7 +424,7 @@
                         "Fn::Join": [
                             "",
                             [
-                                "#!/bin/bash -xe\n",
+                                "#!/bin/bash -x\n",
                                 "easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz \n",
                                 "wget https://bootstrap.pypa.io/get-pip.py\n",
                                 "sudo python get-pip.py\n",
