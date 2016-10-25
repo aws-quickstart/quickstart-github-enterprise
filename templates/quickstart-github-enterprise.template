@@ -221,8 +221,10 @@
             "Type": "String"
         },
         "AdminUserPassword": {
+            "AllowedPattern": "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]*",
             "ConstraintDescription": "Passwords must be at least 7 characters long and include at least one number and one upper case letter.",
             "Description": "Set the Console password for Github Enterprise",
+            "MinLength": "7",
             "NoEcho": "True",
             "Type": "String"
         },
@@ -231,8 +233,10 @@
             "Type": "String"
         },
         "ConsolePassword": {
+            "AllowedPattern": "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]*",
             "ConstraintDescription": "Passwords must be at least 7 characters long and include at least one number and one upper case letter.",
             "Description": "Set the Console password for Github Enterprise",
+            "MinLength": "7",
             "NoEcho": "True",
             "Type": "String"
         },
@@ -456,7 +460,10 @@
                                     "Ref": "QSS3KeyPrefix"
                                 },
                                 "/scripts_userdata.sh \n",
-                                "curl -L $SRC | bash; \n",
+                                "ADMININFO='/etc/gheadmin.conf'\n",
+                                "curl -L $SRC | bash -s $(cat $ADMININFO| grep github_console_password | awk -F: '{print $2}') ",
+                                "$(cat $ADMININFO| grep github_s3_bucket | awk -F: '{print $2}') ",
+                                "$(cat $ADMININFO| grep github_license_file | awk -F: '{print $2}'); \n",
                                 "/usr/local/bin/cfn-signal -e $? '",
                                 {
                                     "Ref": "WaitforGitHubEnterpriseInstall"
@@ -481,7 +488,11 @@
                                     "Ref": "QSS3KeyPrefix"
                                 },
                                 "/adminuser_org_repo.sh \n",
-                                "curl -L $SetUp | bash; \n",
+                                "curl -L $SetUp | bash -s $(cat $ADMININFO| grep github_adminuser_name | awk -F':' '{print $2}') ",
+				"$(cat $ADMININFO| grep github_adminuser_email | awk -F':' '{print $2}') ",
+				"$(cat $ADMININFO| grep github_adminuser_password | awk -F':' '{print $2}') ",
+				"$(cat $ADMININFO| grep github_organization | awk -F':' '{print $2}') ",
+				"$(cat $ADMININFO| grep github_repository | awk -F':' '{print $2}'); \n",
                                 " \n"
                             ]
                         ]
