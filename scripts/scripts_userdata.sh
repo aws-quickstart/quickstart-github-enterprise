@@ -6,6 +6,19 @@
 DATE=`date +%d-%m-%Y`
 date >/root/install_date
 
+##########################################
+# Check status function
+##########################################
+function chkstatus () {
+if [ $1 -eq $2 ]
+then
+  echo "Script $0 [PASS]"
+else
+  echo "Script $0 [FAILED]" >&2
+  exit 1
+fi
+}
+
 ###########################################
 #  Configure the GitHub Enterprise server
 ###########################################
@@ -24,13 +37,16 @@ ${AWS_CMD} s3 cp s3://$2/$3 /tmp
 sleep 25
 
 #Upload the license and set the GitHub Enterprise Admin password
-curl -i -k -L -F license=@/tmp/$3 -F password=$1 -X POST https://${EC2_IP}:8443/setup/api/start 
+START_SETUP=`curl -i -k -L --write-out '%{http_code}' -F license=@/tmp/$3 -F password=$1 -X POST https://${EC2_IP}:8443/setup/api/start`
+RETURN_START=`echo ${START_SETUP} | awk -F' ' '{print $NF}'`
+echo "HTTP status code for start setup: " ${RETURN_START}
+chkstatus ${RETURN_START} 202
 
 # Initiate the configuration process
-curl -i -k -L -X POST https://api_key:$1@localhost:8443/setup/api/configure
-
-# Get the default settings
-curl -i -k -L https://api_key:$1@localhost:8443/setup/api/settings
+INITIATE_CONFIG=$(curl -i -k -L --write-out '%{http_code}' --silent -X POST https://api_key:$1@localhost:8443/setup/api/configure)
+RETURN_INITIATE=`echo ${INITIATE_CONFIG} | awk -F' ' '{print $NF}'`
+echo "HTTP status code for initiate config: " ${RETURN_INITIATE}
+chkstatus ${RETURN_INITIATE} 202
 
 # Check the configuration status and continue to check until the configuration is complete
 CONFIG_STATUS=`curl -k -L https://api_key:$1@localhost:8443/setup/api/configcheck | awk -F, '{print $NF}' | awk -F: '{print $NF}' |tail -n1 `
@@ -41,3 +57,6 @@ while [[ ${CONFIG_STATUS} != *'DONE'* ]]; do
   echo ${CONFIG_STATUS}
   CONFIG_STATUS=`curl -k -L https://api_key:$1@localhost:8443/setup/api/configcheck | awk -F, '{print $NF}' | awk -F: '{print $NF}' |tail -n1 `
 done
+
+echo "The exit code for this script:" $?
+
