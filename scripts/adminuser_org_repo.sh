@@ -42,8 +42,8 @@ EOF
 
 MAKE_ORG=$(curl -i -k -L -H "Content-Type: application/json" --write-out '%{http_code}' --silent -d "{\"login\": ${ORG}, \"admin\": ${ADMIN_USER}}" -X POST https://$1:$3@${EC2_IP}/api/v3/admin/organizations)
 
-echo "This is make org" ${MAKE_ORG}
 RETURN_MAKE_ORG=`echo ${MAKE_ORG} | awk -F' ' '{print $NF}'`
+echo "The Make Org HTTP status code: " ${RETURN_MAKE_ORG}
 
 # Checking status, creation of an Organization should return a 201 on success
 chkstatus $RETURN_MAKE_ORG
@@ -51,8 +51,8 @@ echo $?
 
 MAKE_REPO=$(curl -i -k -L -H "Content-Type: application/json" --write-out '%{http_code}' --silent -d "{\"name\": \"$5\", \"private\": \"true\", \"auto_init\": \"true\"}" -X POST https://$1:$3@${EC2_IP}/api/v3/orgs/$4/repos)
 # The above is supposed to return a 201
-echo "The above is supposed to return to 201"
 RETURN_MAKE_REPO=`echo ${MAKE_REPO} | awk -F' ' '{print $NF}'`
+echo "The Make Repo HTTP status code: " ${RETURN_MAKE_REPO}
 
 # Checking status, creation of an Organization should return a 201 on success
 chkstatus $RETURN_MAKE_REPO
