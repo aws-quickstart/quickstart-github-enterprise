@@ -25,7 +25,7 @@ else
 fi
 }
 
-cat <<-EOF | ghe-console
+cat <<-EOF | ghe-console > /dev/null
   exit 1 if !GitHub.enterprise_first_run?
 
   USER = "$1"
