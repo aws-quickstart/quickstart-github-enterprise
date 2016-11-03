@@ -17,9 +17,6 @@ global:
   reporting: true
  
 tests:
-  quickstart-github-enterpriset1:
-    parameter_input: quickstart-github-enterprise-example-params1.json
-    template_file: quickstart-github-enterprise-example1.template
-  quickstart-github-enterpriset2:
-    parameter_input: quickstart-github-enterprise-example-params2.json
-    template_file: quickstart-github-enterprise-example2.template
+  github:
+    parameter_input: quickstart-github-enterprise.json
+    template_file: quickstart-github-enterprise.template

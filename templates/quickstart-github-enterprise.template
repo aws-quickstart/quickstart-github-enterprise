@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "GitHub Enterprise Quickstart Cloudformation Template. Created from the AWS CloudFormation Sample Template EC2InstanceWithSecurityGroupSample. **WARNING** This template creates an Amazon EC2 instance. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Description": "QS(0040) GitHub Enterprise Quickstart License: Apache 2.0 (Please do not remove) Nov,3,2016",
     "Mappings": {
         "AWSInfoRegionMap": {
             "ap-northeast-1": {

@@ -1,4 +1,6 @@
 #!/bin/bash
+# GitHub Enterprise 
+# date:  Nov,3,2016
 
 # ARGS for script
 # 1: GHE_ADMINUSER_NAME

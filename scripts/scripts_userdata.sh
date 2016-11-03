@@ -1,6 +1,8 @@
 #!/bin/bash -ex
-#UserData and or scripts should be stored here, but only for source code revision purposes and CloudFormation templates should always refer to 'quickstart-reference' S3 bucket
-#
+# GitHub Enterprise Bootstraping 
+# date:  Nov,3,2016
+# purpose: UserData and or scripts should be stored here, but only for source code revision purposes and CloudFormation templates should always refer to 'quickstart-reference' S3 bucket
+
 # Configuring the GitHub Enterprise server
 
 DATE=`date +%d-%m-%Y`
