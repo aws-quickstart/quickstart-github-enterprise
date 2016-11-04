@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "QS(0040) GitHub Enterprise Quickstart License: Apache 2.0 (Please do not remove) Nov,3,2016",
+    "Description": "QS(5005) GitHub Enterprise Quickstart License: Apache 2.0 (Please do not remove) Nov,3,2016",
     "Mappings": {
         "AWSInfoRegionMap": {
             "ap-northeast-1": {
