@@ -4,13 +4,23 @@
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
+                                {
+                "Label": {
+                        "default": "Network Configuration"
+                    },
+                    "Parameters": [
+                        "AccessCIDR",
+                        "SubnetId",
+                        "VPCID"
+                    ]
+                },
                 {
                     "Label": {
                         "default": "GitHubEnterprise License"
                     },
                     "Parameters": [
-                        "S3LicenseBucketName",
-                        "License"
+                        "LicenseLocation",
+                        "GHELicense"
                     ]
                 },
                 {
@@ -19,7 +29,8 @@
                     },
                     "Parameters": [
                         "InitialOrganization",
-                        "InitialRepository"
+                        "InitialRepository",
+                        "ConsolePassword"
                     ]
                 },
                 {
@@ -38,22 +49,22 @@
                     },
                     "Parameters": [
                         "InstanceType",
-                        "KeyName",
-                        "AccessCIDR",
-                        "SubnetId",
-                        "VolumeSize",
-                        "VPCID"
+                        "KeyPairName",
+                        "VolumeSize"
                     ]
-                }
-            ],
-            "ParameterLables": {
-                "AccessCIDR": {
-                    "default": "The CIDR IP range that is permitted to access SPE Nodes Note: a value of 0.0.0.0/0 will allow access from ANY ip address"
                 },
-                "S3LicenseBucketName": {
-                    "default": "S3 bucket location of GitHub license"
-                }
-            }
+
+                {
+        "Label": {
+          "default": "AWS Quick Start Configuration"
+        },
+        "Parameters": [
+          "QSS3BucketName",
+          "QSS3KeyPrefix"
+        ]
+      },
+            ],
+
         }
     },
     "Parameters": {
@@ -72,7 +83,7 @@
         "AdminUserPassword": {
             "AllowedPattern": "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]*",
             "ConstraintDescription": "Passwords must be at least 7 characters long and include at least one number and one upper case letter.",
-            "Description": "Set the Console password for Github Enterprise",
+            "Description": "Set the Console password for Github Enterprise (Passwords must be at least 7 characters long and include at least one number and one upper case letter)",
             "MinLength": "7",
             "NoEcho": "True",
             "Type": "String"
@@ -83,8 +94,8 @@
         },
         "ConsolePassword": {
             "AllowedPattern": "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]*",
+            "Description": "Set the Console password for Github Enterprise (Passwords must be at least 7 characters long and include at least one number and one upper case letter)",
             "ConstraintDescription": "Passwords must be at least 7 characters long and include at least one number and one upper case letter.",
-            "Description": "Set the Console password for Github Enterprise",
             "MinLength": "7",
             "NoEcho": "True",
             "Type": "String"
@@ -120,14 +131,10 @@
             "Description": "WebServer EC2 instance type",
             "Type": "String"
         },
-        "KeyName": {
+        "KeyPairName": {
             "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
             "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instance",
             "Type": "AWS::EC2::KeyPair::KeyName"
-        },
-        "License": {
-            "Description": "GitHub Enterprise License file that is uploaded to the License S3 bucket. Sign up for a trial license here: https://enterprise.github.com/trial",
-            "Type": "String"
         },
         "QSS3BucketName": {
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
@@ -143,8 +150,12 @@
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
             "Type": "String"
         },
-        "S3LicenseBucketName": {
-            "Description": "S3 bucket where the GitHub Enterprise License is located.",
+        "GHELicense": {
+            "Description": "GitHub Enterprise License file that is uploaded to the License S3 bucket. Sign up for a trial license here: https://enterprise.github.com/trial",
+            "Type": "String"
+        },
+        "LicenseLocation": {
+            "Description": "Name of S3 bucket containing GitHub Enterprise license",
             "Type": "String"
         },
         "SubnetId": {
@@ -334,7 +345,7 @@
                                             "\n",
                                             "github_s3_bucket:",
                                             {
-                                                "Ref": "S3LicenseBucketName"
+                                                "Ref": "LicenseLocation"
                                             },
                                             "\n",
                                             "github_adminuser_name:",
@@ -364,7 +375,7 @@
                                             "\n",
                                             "github_license_file:",
                                             {
-                                                "Ref": "License"
+                                                "Ref": "GHELicense"
                                             },
                                             "\n"
                                         ]
@@ -407,7 +418,7 @@
                     "Ref": "InstanceType"
                 },
                 "KeyName": {
-                    "Ref": "KeyName"
+                    "Ref": "KeyPairName"
                 },
                 "SecurityGroupIds": [
                     {
