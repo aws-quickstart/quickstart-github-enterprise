@@ -19,4 +19,4 @@ global:
 tests:
   github:
     parameter_input: quickstart-github-enterprise.json
-    template_file: quickstart-github-enterprise.template
+    template_file: quickstart-github-enterprise-master.template
