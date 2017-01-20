@@ -531,7 +531,7 @@
                 "Handle": {
                     "Ref": "WaitforGitHubEnterpriseInstall"
                 },
-                "Timeout": "43200"
+                "Timeout": "300"
             },
             "Type": "AWS::CloudFormation::WaitCondition"
         },
