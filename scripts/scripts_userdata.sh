@@ -4,7 +4,6 @@
 # purpose: UserData and or scripts should be stored here, but only for source code revision purposes and CloudFormation templates should always refer to 'quickstart-reference' S3 bucket
 
 # Configuring the GitHub Enterprise server
-
 DATE=`date +%d-%m-%Y`
 date >/root/install_date
 
@@ -35,11 +34,11 @@ EC2_IP=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
 
 
 # Copy down the license file from the S3 Bucket
-${AWS_CMD} s3 cp s3://$2/$3 /tmp
-sleep 25
+${AWS_CMD} s3 cp s3://$2/$3 /tmp/github-enterprise.ghl 
 
+sleep 25
 #Upload the license and set the GitHub Enterprise Admin password
-START_SETUP=`curl -i -k -L --write-out '%{http_code}' -F license=@/tmp/$3 -F password=$1 -X POST https://${EC2_IP}:8443/setup/api/start`
+START_SETUP=`curl -i -k -L --write-out '%{http_code}' -F license=@/tmp/github-enterprise.ghl -F password=$1 -X POST https://${EC2_IP}:8443/setup/api/start`
 RETURN_START=`echo ${START_SETUP} | awk -F' ' '{print $NF}'`
 echo "HTTP status code for start setup: " ${RETURN_START}
 chkstatus ${RETURN_START} 202
