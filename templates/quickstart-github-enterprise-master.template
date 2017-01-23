@@ -45,6 +45,8 @@
         "Parameters": [
           "InstanceType",
           "KeyPairName",
+          "VolumeType",
+          "ProvisionedIops",
           "VolumeSize"
         ]
       }, {
@@ -156,6 +158,19 @@
       "Description": "CIDR Block for the VPC",
       "Type": "String"
     },
+            "ProvisionedIops": {
+            "ConstraintDescription": "Range is 100 to 20000 for Provisioned IOPS SSD volumes",
+            "Description": "Set the provisioned IOPs between 100 and 20000. Only set if you are choosing io1 for your volume type",
+            "Type": "String"
+        },
+                "VolumeType": {
+            "AllowedValues": [
+                "gp2",
+                "io1"
+            ],
+            "Description": "Choose either GP2 or IO1. IO1 is recommended for more than 500 users",
+            "Type": "String"
+        },
     "VolumeSize": {
       "Default": "100",
       "Description": "The size of the EBS attached volume",
@@ -303,6 +318,15 @@
           },
           "ManagementPassword": {
             "Ref": "ManagementPassword"
+          },
+                    "VolumeType": {
+            "Ref": "VolumeType"
+          },
+                    "ProvisionedIops": {
+            "Ref": "ProvisionedIops"
+          },
+                    "VolumeSize": {
+            "Ref": "VolumeSize"
           },
           "KeyPairName": {
             "Ref": "KeyPairName"
