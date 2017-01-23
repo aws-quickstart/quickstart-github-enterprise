@@ -27,16 +27,16 @@
         "Parameters": [
           "InitialOrganization",
           "InitialRepository",
-          "ConsolePassword"
+          "ManagementPassword"
         ]
       }, {
         "Label": {
           "default": "Site Admin User Information"
         },
         "Parameters": [
-          "AdminUsername",
-          "AdminUserEmail",
-          "AdminUserPassword"
+          "SiteAdminUsername",
+          "SiteAdminUserEmail",
+          "SiteAdminUserPassword"
         ]
       }, {
         "Label": {
@@ -73,26 +73,26 @@
       "MinLength": "9",
       "Type": "String"
     },
-    "AdminUserEmail": {
+    "SiteAdminUserEmail": {
       "Description": "Site Admin Email address",
       "Type": "String"
     },
-    "AdminUserPassword": {
+    "SiteAdminUserPassword": {
       "AllowedPattern": "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]*",
       "ConstraintDescription": "Passwords must be at least 7 characters long and include at least one number and one upper case letter.",
-      "Description": "Set the Console password for Github Enterprise (Passwords must be at least 7 characters long and include at least one number and one upper case letter)",
+      "Description": "Set the Site Admin password for Github Enterprise (Passwords must be at least 7 characters long and include at least one number and one upper case letter)",
       "MinLength": "7",
       "NoEcho": "True",
       "Type": "String"
     },
-    "AdminUsername": {
+    "SiteAdminUsername": {
       "Description": "Set the Site Admin Username",
       "Type": "String"
     },
-    "ConsolePassword": {
+    "ManagementPassword": {
       "AllowedPattern": "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]*",
       "ConstraintDescription": "Passwords must be at least 7 characters long and include at least one number and one upper case letter.",
-      "Description": "Set the Console password for Github Enterprise (Passwords must be at least 7 characters long and include at least one number and one upper case letter)",
+      "Description": "Set the Management password for Github Enterprise (Passwords must be at least 7 characters long and include at least one number and one upper case letter)",
       "MinLength": "7",
       "NoEcho": "True",
       "Type": "String"
@@ -286,14 +286,14 @@
           "LicenseLocation": {
             "Ref": "LicenseLocation"
           },
-          "AdminUsername": {
-            "Ref": "AdminUsername"
+          "SiteAdminUsername": {
+            "Ref": "SiteAdminUsername"
           },
-          "AdminUserPassword": {
-            "Ref": "AdminUserPassword"
+          "SiteAdminUserPassword": {
+            "Ref": "SiteAdminUserPassword"
           },
-          "AdminUserEmail": {
-            "Ref": "AdminUserEmail"
+          "SiteAdminUserEmail": {
+            "Ref": "SiteAdminUserEmail"
           },
           "InitialOrganization": {
             "Ref": "InitialOrganization"
@@ -301,8 +301,8 @@
           "InitialRepository": {
             "Ref": "InitialRepository"
           },
-          "ConsolePassword": {
-            "Ref": "ConsolePassword"
+          "ManagementPassword": {
+            "Ref": "ManagementPassword"
           },
           "KeyPairName": {
             "Ref": "KeyPairName"
