@@ -38,10 +38,11 @@ ${AWS_CMD} s3 cp s3://$2/$3 /tmp/github-enterprise.ghl
 
 sleep 25
 #Upload the license and set the GitHub Enterprise Admin password
-START_SETUP=`curl -i -k -L --write-out '%{http_code}' -F license=@/tmp/github-enterprise.ghl -F password=$1 -X POST https://${EC2_IP}:8443/setup/api/start`
+START_SETUP=`curl -o /dev/null -i -k -L --write-out '%{http_code}' -F license=@/tmp/github-enterprise.ghl -F password=$1 -X POST https://${EC2_IP}:8443/setup/api/start`
 RETURN_START=`echo ${START_SETUP} | awk -F' ' '{print $NF}'`
 echo "HTTP status code for start setup: " ${RETURN_START}
-chkstatus ${RETURN_START} 202
+chkstatus ${RETURN_START} 202 && echo "Return from chkstatus:" $?
+[[ $? -ne 0 ]] && exit 1
 
 # Initiate the configuration process
 INITIATE_CONFIG=$(curl -i -k -L --write-out '%{http_code}' --silent -X POST https://api_key:$1@localhost:8443/setup/api/configure)
