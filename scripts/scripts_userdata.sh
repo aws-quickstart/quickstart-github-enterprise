@@ -41,7 +41,8 @@ sleep 25
 START_SETUP=`curl -o /dev/null -i -k -L --write-out '%{http_code}' -F license=@/tmp/github-enterprise.ghl -F password=$1 -X POST https://${EC2_IP}:8443/setup/api/start`
 RETURN_START=`echo ${START_SETUP} | awk -F' ' '{print $NF}'`
 echo "HTTP status code for start setup: " ${RETURN_START}
-chkstatus ${RETURN_START} 202 && echo "Return from chkstatus:" $?
+chkstatus ${RETURN_START} 202 
+echo "Return from chkstatus:" $?
 [[ $? -ne 0 ]] && exit 1
 
 # Initiate the configuration process
@@ -49,6 +50,8 @@ INITIATE_CONFIG=$(curl -i -k -L --write-out '%{http_code}' --silent -X POST http
 RETURN_INITIATE=`echo ${INITIATE_CONFIG} | awk -F' ' '{print $NF}'`
 echo "HTTP status code for initiate config: " ${RETURN_INITIATE}
 chkstatus ${RETURN_INITIATE} 202
+echo "Return from chkstatus:" $?
+[[ $? -ne 0 ]] && exit 1
 
 # Check the configuration status and continue to check until the configuration is complete
 CONFIG_STATUS=`curl -k -L https://api_key:$1@localhost:8443/setup/api/configcheck | awk -F, '{print $NF}' | awk -F: '{print $NF}' |tail -n1 `
