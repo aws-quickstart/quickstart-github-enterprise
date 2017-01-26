@@ -307,7 +307,7 @@
         "QSS3KeyPrefix": {
             "AllowedPattern": "^[0-9a-zA-Z-]+(/[0-9a-zA-Z-]+)*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
-            "Default": "github/enterprise/latest/scripts",
+            "Default": "github/enterprise/latest",
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
             "Type": "String"
         },
@@ -510,13 +510,21 @@
                                 {
                                     "Ref": "QSS3KeyPrefix"
                                 },
-                                "/scripts_userdata.sh \n",
+                                "/scripts/scripts_userdata.sh \n",
                                 "ADMININFO='/etc/gheadmin.conf'\n",
                                 "curl -L $SRC | bash -s $(cat $ADMININFO| grep github_console_password | awk -F: '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_s3_bucket | awk -F: '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_license_file | awk -F: '{print $2}'); \n",
-                                "echo \"The exit code from above\"\n",
-                                "/usr/local/bin/cfn-signal -e $? '",
+                                "/usr/local/bin/cfn-signal -e $? ",
+                                " --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                " --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+				" '",
                                 {
                                     "Ref": "WaitforGitHubEnterpriseInstall"
                                 },
