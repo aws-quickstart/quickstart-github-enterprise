@@ -1,0 +1,66 @@
+[
+    {
+        "ParameterKey": "AccessCIDR",
+        "ParameterValue": "1.2.3.4/0"
+    },
+    {
+        "ParameterKey": "GHELicense",
+        "ParameterValue": "github-enterprise.ghl"
+    },
+    {
+        "ParameterKey": "InitialOrganization",
+        "ParameterValue": "MyOrg"
+    },
+    {
+        "ParameterKey": "InitialRepository",
+        "ParameterValue": "MyRepo"
+    },
+    {
+        "ParameterKey": "InstanceType",
+        "ParameterValue": "c4.2xlarge"
+    },
+    {
+        "ParameterKey": "KeyPairName",
+        "ParameterValue": "tonynv"
+    },
+    {
+        "ParameterKey": "LicenseLocation",
+        "ParameterValue": "quickstart-ci-license/github"
+    },
+    {
+        "ParameterKey": "ManagementPassword",
+        "ParameterValue": "$[alfred_genpass_8]"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "quickstart-reference"
+    },
+    {
+        "ParameterKey": "QSS3KeyPrefix",
+        "ParameterValue": "github/enterprise/latest"
+    },
+    {
+        "ParameterKey": "SiteAdminUserEmail",
+        "ParameterValue": "none@none.com"
+    },
+    {
+        "ParameterKey": "SiteAdminUserPassword",
+        "ParameterValue": "$[alfred_genpass_8]"
+    },
+    {
+        "ParameterKey": "SiteAdminUsername",
+        "ParameterValue": "gitadmin"
+    },
+    {
+        "ParameterKey": "VPCCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "VolumeType",
+        "ParameterValue": "io1"
+    },
+    {
+        "ParameterKey": "ProvisionedIops",
+        "ParameterValue": "1000"
+    }
+]

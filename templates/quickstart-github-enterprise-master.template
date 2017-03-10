@@ -254,6 +254,9 @@
                     "InitialRepository": {
                         "Ref": "InitialRepository"
                     },
+                    "InstanceType": {
+                        "Ref": "InstanceType"
+                    },
                     "KeyPairName": {
                         "Ref": "KeyPairName"
                     },
@@ -355,7 +358,7 @@
                             {
                                 "Ref": "QSS3KeyPrefix"
                             },
-                            "templates/quickstart-github-enterprise-vpc.template"
+                            "templates/quickstart-github-enterprise-single-az-vpc.template"
                         ]
                     ]
                 }
