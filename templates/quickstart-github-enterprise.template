@@ -14,40 +14,46 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "GHE27": "GitHub Enterprise 2.7.4"
+                "GHE27": "GitHub Enterprise 2.7.16"
             },
             "ap-northeast-1": {
-                "AMI": "ami-8dc211ec"
+                "AMI": "ami-926e58f5"
             },
             "ap-northeast-2": {
-                "AMI": "ami-b65386d8"
+                "AMI": "ami-5abb6634"
             },
             "ap-south-1": {
-                "AMI": "ami-85d5a0ea"
+                "AMI": "ami-76f78519"
             },
             "ap-southeast-1": {
-                "AMI": "ami-9aab0ef9"
+                "AMI": "ami-ff7dc79c"
             },
             "ap-southeast-2": {
-                "AMI": "ami-1c2a1a7f"
+                "AMI": "ami-c40902a7"
             },
             "eu-central-1": {
-                "AMI": "ami-a23fc2cd"
+                "AMI": "ami-89f52ae6"
             },
             "eu-west-1": {
-                "AMI": "ami-a09fe4d3"
+                "AMI": "ami-f0a5a796"
+            },
+            "eu-west-2": {
+                "AMI": "ami-a1b1a5c5"
             },
             "sa-east-1": {
-                "AMI": "ami-348e1d58"
+                "AMI": "ami-27472b4b"
             },
             "us-east-1": {
-                "AMI": "ami-3b78012c"
+                "AMI": "ami-c8137ede"
+            },
+            "us-east-2": {
+                "AMI": "ami-eb0a2d8e"
             },
             "us-west-1": {
-                "AMI": "ami-56eda236"
+                "AMI": "ami-a8a384c8"
             },
             "us-west-2": {
-                "AMI": "ami-8961bce9"
+                "AMI": "ami-435cc423"
             }
         },
         "AWSInfoRegionMap": {
@@ -524,7 +530,7 @@
                                 {
                                     "Ref": "AWS::Region"
                                 },
-				" '",
+                                " '",
                                 {
                                     "Ref": "WaitforGitHubEnterpriseInstall"
                                 },
