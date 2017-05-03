@@ -1,6 +1,14 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Conditions": {
+        "GovCloudCondition": {
+            "Fn::Equals": [
+                {
+                    "Ref": "AWS::Region"
+                },
+                "us-gov-west-1"
+            ]
+        },
         "Io1Set": {
             "Fn::Equals": [
                 {
@@ -14,46 +22,46 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "GHE27": "GitHub Enterprise 2.7.16"
+                "GHE29": "GitHub Enterprise 2.9.4"
             },
             "ap-northeast-1": {
-                "AMI": "ami-926e58f5"
+                "AMI": "ami-f66b5d91"
             },
             "ap-northeast-2": {
-                "AMI": "ami-5abb6634"
+                "AMI": "ami-5bbb6635"
             },
             "ap-south-1": {
-                "AMI": "ami-76f78519"
+                "AMI": "ami-72f0821d"
             },
             "ap-southeast-1": {
-                "AMI": "ami-ff7dc79c"
+                "AMI": "ami-1a73c979"
             },
             "ap-southeast-2": {
-                "AMI": "ami-c40902a7"
+                "AMI": "ami-060f0465"
             },
             "eu-central-1": {
-                "AMI": "ami-89f52ae6"
+                "AMI": "ami-5ef02f31"
             },
             "eu-west-1": {
-                "AMI": "ami-f0a5a796"
+                "AMI": "ami-5ba5a73d"
             },
             "eu-west-2": {
-                "AMI": "ami-a1b1a5c5"
+                "AMI": "ami-7cb3a718"
             },
             "sa-east-1": {
-                "AMI": "ami-27472b4b"
+                "AMI": "ami-5f462a33"
             },
             "us-east-1": {
-                "AMI": "ami-c8137ede"
+                "AMI": "ami-8d6c019b"
             },
             "us-east-2": {
-                "AMI": "ami-eb0a2d8e"
+                "AMI": "ami-b80126dd"
             },
             "us-west-1": {
-                "AMI": "ami-a8a384c8"
+                "AMI": "ami-00a58260"
             },
             "us-west-2": {
-                "AMI": "ami-435cc423"
+                "AMI": "ami-155cc475"
             }
         },
         "AWSInfoRegionMap": {
@@ -500,21 +508,18 @@
                                 "\n",
                                 "SRC=",
                                 {
-                                    "Fn::FindInMap": [
-                                        "AWSInfoRegionMap",
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}",
                                         {
-                                            "Ref": "AWS::Region"
-                                        },
-                                        "QuickStartS3URL"
+                                            "S3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
                                     ]
-                                },
-                                "/",
-                                {
-                                    "Ref": "QSS3BucketName"
-                                },
-                                "/",
-                                {
-                                    "Ref": "QSS3KeyPrefix"
                                 },
                                 "/scripts/scripts_userdata.sh \n",
                                 "ADMININFO='/etc/gheadmin.conf'\n",
@@ -537,23 +542,20 @@
                                 "'\n",
                                 "SetUp=",
                                 {
-                                    "Fn::FindInMap": [
-                                        "AWSInfoRegionMap",
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}",
                                         {
-                                            "Ref": "AWS::Region"
-                                        },
-                                        "QuickStartS3URL"
+                                            "S3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
                                     ]
                                 },
-                                "/",
-                                {
-                                    "Ref": "QSS3BucketName"
-                                },
-                                "/",
-                                {
-                                    "Ref": "QSS3KeyPrefix"
-                                },
-                                "/adminuser_org_repo.sh \n",
+                                "/scripts/adminuser_org_repo.sh \n",
                                 "curl -L $SetUp | bash -s $(cat $ADMININFO| grep github_adminuser_name | awk -F':' '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_adminuser_email | awk -F':' '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_adminuser_password | awk -F':' '{print $2}') ",
