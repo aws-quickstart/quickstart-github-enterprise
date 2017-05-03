@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 # GitHub Enterprise 
 # date:  Nov,3,2016
 
@@ -27,7 +27,7 @@ else
 fi
 }
 
-cat <<-EOF | ghe-console > /dev/null
+cat <<-EOF | ghe-console -y > /dev/null
   exit 1 if !GitHub.enterprise_first_run?
 
   USER = "$1"
