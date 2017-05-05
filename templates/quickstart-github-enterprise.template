@@ -526,20 +526,6 @@
                                 "curl -L $SRC | bash -s $(cat $ADMININFO| grep github_console_password | awk -F: '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_s3_bucket | awk -F: '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_license_file | awk -F: '{print $2}'); \n",
-                                "/usr/local/bin/cfn-signal -e $? ",
-                                " --stack ",
-                                {
-                                    "Ref": "AWS::StackName"
-                                },
-                                " --region ",
-                                {
-                                    "Ref": "AWS::Region"
-                                },
-                                " '",
-                                {
-                                    "Ref": "WaitforGitHubEnterpriseInstall"
-                                },
-                                "'\n",
                                 "SetUp=",
                                 {
                                     "Fn::Sub": [
@@ -561,9 +547,12 @@
                                 "$(cat $ADMININFO| grep github_adminuser_password | awk -F':' '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_organization | awk -F':' '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_repository | awk -F':' '{print $2}'); \n",
-                                "echo \"Exit code from the adminuser script\" \n",
-                                "echo $?",
-                                " \n"
+                                "echo \"exit code \"$? \n",
+                                "/usr/local/bin/cfn-signal -e $? ",
+                                " '", {
+                                    "Ref": "WaitforGitHubEnterpriseInstall"
+                                },
+                                "'\n"
                             ]
                         ]
                     }
@@ -622,7 +611,7 @@
                 "Handle": {
                     "Ref": "WaitforGitHubEnterpriseInstall"
                 },
-                "Timeout": "300"
+                "Timeout": "500"
             },
             "Type": "AWS::CloudFormation::WaitCondition"
         },

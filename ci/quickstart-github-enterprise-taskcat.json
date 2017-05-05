@@ -1,19 +1,19 @@
 [
     {
         "ParameterKey": "AccessCIDR",
-        "ParameterValue": "1.2.3.4/0"
+        "ParameterValue": "0.0.0.0/0"
     },
     {
         "ParameterKey": "GHELicense",
-        "ParameterValue": "github-enterprise-good.ghl"
+        "ParameterValue": "github-enterprise.ghl"
     },
     {
         "ParameterKey": "InitialOrganization",
-        "ParameterValue": "MyOrg"
+        "ParameterValue": "quicstart-created-repo"
     },
     {
         "ParameterKey": "InitialRepository",
-        "ParameterValue": "MyRepo"
+        "ParameterValue": "repo1"
     },
     {
         "ParameterKey": "InstanceType",
@@ -25,7 +25,7 @@
     },
     {
         "ParameterKey": "LicenseLocation",
-        "ParameterValue": "cfn-tonynv"
+        "ParameterValue": "tonynv"
     },
     {
         "ParameterKey": "ManagementPassword",
@@ -33,11 +33,11 @@
     },
     {
         "ParameterKey": "QSS3BucketName",
-        "ParameterValue": "quickstart-reference"
+        "ParameterValue": "tonynv"
     },
     {
         "ParameterKey": "QSS3KeyPrefix",
-        "ParameterValue": "github/enterprise/latest"
+        "ParameterValue": "quickstart-github-enterprise"
     },
     {
         "ParameterKey": "SiteAdminUserEmail",
