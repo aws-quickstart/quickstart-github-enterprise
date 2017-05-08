@@ -9,7 +9,7 @@
     },
     {
         "ParameterKey": "InitialOrganization",
-        "ParameterValue": "quicstart-created-repo"
+        "ParameterValue": "quickstart-created-repo"
     },
     {
         "ParameterKey": "InitialRepository",
