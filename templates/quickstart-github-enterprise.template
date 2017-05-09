@@ -184,8 +184,7 @@
             "us-west-2": {
                 "AMI": "ami-155cc475"
             }
-        },
-
+        }
     },
     "Outputs": {
         "AvailabilityZone": {

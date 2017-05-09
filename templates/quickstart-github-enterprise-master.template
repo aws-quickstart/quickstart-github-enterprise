@@ -318,7 +318,7 @@
                             }
                         }
                     ]
-                },
+                }
             },
             "Type": "AWS::CloudFormation::Stack"
         },
@@ -344,7 +344,7 @@
                             }
                         }
                     ]
-                },
+                }
             },
             "Type": "AWS::CloudFormation::Stack"
         }
