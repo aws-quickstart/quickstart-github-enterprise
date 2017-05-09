@@ -353,24 +353,19 @@
                         "Ref": "VolumeType"
                     }
                 },
-                "TemplateURL": {
-                    "Fn::Join": [
-                        "/", [{
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap", {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                                "TemplateURL": {
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}/templates/quickstart-github-enterprise.template", {
+                            "S3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            }, {
-                                "Ref": "QSS3BucketName"
-                            }, {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "templates/quickstart-github-enterprise.template"
-                        ]
+                            }
+                        }
                     ]
-                }
+                },
             },
             "Type": "AWS::CloudFormation::Stack"
         },
@@ -385,23 +380,18 @@
                     }
                 },
                 "TemplateURL": {
-                    "Fn::Join": [
-                        "/", [{
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap", {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}/templates/quickstart-github-enterprise-single-az-vpc.template", {
+                            "S3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            }, {
-                                "Ref": "QSS3BucketName"
-                            }, {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "templates/quickstart-github-enterprise-single-az-vpc.template"
-                        ]
+                            }
+                        }
                     ]
-                }
+                },
             },
             "Type": "AWS::CloudFormation::Stack"
         }
