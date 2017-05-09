@@ -1,6 +1,121 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "GitHub Enterprise with VPC, License: Apache 2.0 (Please do not remove) Jan,17,2016",
+    "Description": "GitHub Enterprise with VPC, License: Apache 2.0 (Please do not remove) May,9,2016",
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [{
+                "Label": {
+                    "default": " VPC Network Configuration"
+                },
+                "Parameters": [
+                    "VPCCIDR",
+                    "AccessCIDR"
+                ]
+            }, {
+                "Label": {
+                    "default": "GitHubEnterprise License"
+                },
+                "Parameters": [
+                    "LicenseLocation",
+                    "GHELicense"
+                ]
+            }, {
+                "Label": {
+                    "default": "GitHub Enterprise Organization and Repository"
+                },
+                "Parameters": [
+                    "InitialOrganization",
+                    "InitialRepository"
+                ]
+            }, {
+                "Label": {
+                    "default": "Site Admin User Information"
+                },
+                "Parameters": [
+                    "ManagementPassword",
+                    "SiteAdminUsername",
+                    "SiteAdminUserEmail",
+                    "SiteAdminUserPassword"
+                ]
+            }, {
+                "Label": {
+                    "default": "Server Configuration"
+                },
+                "Parameters": [
+                    "InstanceType",
+                    "KeyPairName",
+                    "VolumeType",
+                    "ProvisionedIops",
+                    "VolumeSize"
+                ]
+            }, {
+                "Label": {
+                    "default": "AWS Quick Start Configuration"
+                },
+                "Parameters": [
+                    "QSS3BucketName",
+                    "QSS3KeyPrefix"
+                ]
+            }],
+            "ParameterLabels": {
+                "KeyPairName": {
+                    "default": "Key Pair Name"
+                },
+                "QSS3BucketName": {
+                    "default": "Quick Start S3 Bucket Name"
+                },
+                "QSS3KeyPrefix": {
+                    "default": "Quick Start S3 Key Prefix"
+                },
+                "AccessCIDR": {
+                    "default": "Permitted IP range"
+                },
+                "SubnetCIDR": {
+                    "default": "Subnet CIDR"
+                },
+                "VPCCIDR": {
+                    "default": "VPC CIDR"
+                },
+                "LicenseLocation": {
+                    "default": "GitHub License Location"
+                },
+                "GHELicense": {
+                    "default": "GitHub License Filename"
+                },
+                "InitialOrganization": {
+                    "default": "Initial Organization"
+                },
+                "InitialRepository": {
+                    "default": "Initial Repository"
+                },
+                "ManagementPassword": {
+                    "default": "Management Password"
+                },
+                "SiteAdminUsername": {
+                    "default": "Site Admin Username"
+                },
+                "SiteAdminUserPassword": {
+                    "default": "Site Admin UserPassword"
+                },
+                "SiteAdminUserEmail": {
+                    "default": "Site Admin User Email"
+                },
+                "VolumeType": {
+                    "default": "Volume Type"
+                },
+                "InstanceType": {
+                    "default": "instance Type"
+                },
+                "ProvisionedIops": {
+                    "default": "Provisioned Iops"
+                },
+                "VolumeSize": {
+                    "default": "Volume Size"
+                }
+
+            }
+        }
+    },
     "Mappings": {
         "AWSInfoRegionMap": {
             "ap-northeast-1": {
@@ -55,71 +170,6 @@
                 "Partition": "aws",
                 "QuickStartS3URL": "https://s3.amazonaws.com"
             }
-        }
-    },
-    "Metadata": {
-        "AWS::CloudFormation::Interface": {
-            "ParameterGroups": [
-                {
-                    "Label": {
-                        "default": " VPC Network Configuration"
-                    },
-                    "Parameters": [
-                        "VPCCIDR",
-                        "AccessCIDR"
-                    ]
-                },
-                {
-                    "Label": {
-                        "default": "GitHubEnterprise License"
-                    },
-                    "Parameters": [
-                        "LicenseLocation",
-                        "GHELicense"
-                    ]
-                },
-                {
-                    "Label": {
-                        "default": "GitHub Enterprise Organization and Repository"
-                    },
-                    "Parameters": [
-                        "InitialOrganization",
-                        "InitialRepository",
-                        "ManagementPassword"
-                    ]
-                },
-                {
-                    "Label": {
-                        "default": "Site Admin User Information"
-                    },
-                    "Parameters": [
-                        "SiteAdminUsername",
-                        "SiteAdminUserEmail",
-                        "SiteAdminUserPassword"
-                    ]
-                },
-                {
-                    "Label": {
-                        "default": "Server Configuration"
-                    },
-                    "Parameters": [
-                        "InstanceType",
-                        "KeyPairName",
-                        "VolumeType",
-                        "ProvisionedIops",
-                        "VolumeSize"
-                    ]
-                },
-                {
-                    "Label": {
-                        "default": "AWS Quick Start Configuration"
-                    },
-                    "Parameters": [
-                        "QSS3BucketName",
-                        "QSS3KeyPrefix"
-                    ]
-                }
-            ]
         }
     },
     "Parameters": {
@@ -305,21 +355,16 @@
                 },
                 "TemplateURL": {
                     "Fn::Join": [
-                        "/",
-                        [
-                            {
+                        "/", [{
                                 "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
+                                    "AWSInfoRegionMap", {
                                         "Ref": "AWS::Region"
                                     },
                                     "QuickStartS3URL"
                                 ]
-                            },
-                            {
+                            }, {
                                 "Ref": "QSS3BucketName"
-                            },
-                            {
+                            }, {
                                 "Ref": "QSS3KeyPrefix"
                             },
                             "templates/quickstart-github-enterprise.template"
@@ -341,21 +386,16 @@
                 },
                 "TemplateURL": {
                     "Fn::Join": [
-                        "/",
-                        [
-                            {
+                        "/", [{
                                 "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
+                                    "AWSInfoRegionMap", {
                                         "Ref": "AWS::Region"
                                     },
                                     "QuickStartS3URL"
                                 ]
-                            },
-                            {
+                            }, {
                                 "Ref": "QSS3BucketName"
-                            },
-                            {
+                            }, {
                                 "Ref": "QSS3KeyPrefix"
                             },
                             "templates/quickstart-github-enterprise-single-az-vpc.template"
