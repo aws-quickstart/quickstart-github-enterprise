@@ -113,6 +113,12 @@
                 },
                 "VolumeSize": {
                     "default": "Volume Size"
+                },
+                "SubnetId": {
+                    "default": "Subnet Id"
+                },
+                "VPCID": {
+                    "default": "VPC ID"
                 }
 
             }
