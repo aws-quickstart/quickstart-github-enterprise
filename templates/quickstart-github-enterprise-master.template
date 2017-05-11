@@ -1,83 +1,82 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
+    "Conditions": {
+        "GovCloudCondition": {
+            "Fn::Equals": [
+                {
+                    "Ref": "AWS::Region"
+                },
+                "us-gov-west-1"
+            ]
+        }
+    },
     "Description": "GitHub Enterprise with VPC, License: Apache 2.0 (Please do not remove) May,9,2016",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
-            "ParameterGroups": [{
-                "Label": {
-                    "default": " VPC Network Configuration"
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": " VPC Network Configuration"
+                    },
+                    "Parameters": [
+                        "VPCCIDR",
+                        "AccessCIDR"
+                    ]
                 },
-                "Parameters": [
-                    "VPCCIDR",
-                    "AccessCIDR"
-                ]
-            }, {
-                "Label": {
-                    "default": "GitHubEnterprise License"
+                {
+                    "Label": {
+                        "default": "GitHubEnterprise License"
+                    },
+                    "Parameters": [
+                        "LicenseLocation",
+                        "GHELicense"
+                    ]
                 },
-                "Parameters": [
-                    "LicenseLocation",
-                    "GHELicense"
-                ]
-            }, {
-                "Label": {
-                    "default": "GitHub Enterprise Organization and Repository"
+                {
+                    "Label": {
+                        "default": "GitHub Enterprise Organization and Repository"
+                    },
+                    "Parameters": [
+                        "InitialOrganization",
+                        "InitialRepository"
+                    ]
                 },
-                "Parameters": [
-                    "InitialOrganization",
-                    "InitialRepository"
-                ]
-            }, {
-                "Label": {
-                    "default": "Site Admin User Information"
+                {
+                    "Label": {
+                        "default": "Site Admin User Information"
+                    },
+                    "Parameters": [
+                        "ManagementPassword",
+                        "SiteAdminUsername",
+                        "SiteAdminUserEmail",
+                        "SiteAdminUserPassword"
+                    ]
                 },
-                "Parameters": [
-                    "ManagementPassword",
-                    "SiteAdminUsername",
-                    "SiteAdminUserEmail",
-                    "SiteAdminUserPassword"
-                ]
-            }, {
-                "Label": {
-                    "default": "Server Configuration"
+                {
+                    "Label": {
+                        "default": "Server Configuration"
+                    },
+                    "Parameters": [
+                        "InstanceType",
+                        "KeyPairName",
+                        "VolumeType",
+                        "ProvisionedIops",
+                        "VolumeSize"
+                    ]
                 },
-                "Parameters": [
-                    "InstanceType",
-                    "KeyPairName",
-                    "VolumeType",
-                    "ProvisionedIops",
-                    "VolumeSize"
-                ]
-            }, {
-                "Label": {
-                    "default": "AWS Quick Start Configuration"
-                },
-                "Parameters": [
-                    "QSS3BucketName",
-                    "QSS3KeyPrefix"
-                ]
-            }],
+                {
+                    "Label": {
+                        "default": "AWS Quick Start Configuration"
+                    },
+                    "Parameters": [
+                        "QSS3BucketName",
+                        "QSS3KeyPrefix"
+                    ]
+                }
+            ],
             "ParameterLabels": {
-                "KeyPairName": {
-                    "default": "Key Pair Name"
-                },
-                "QSS3BucketName": {
-                    "default": "Quick Start S3 Bucket Name"
-                },
-                "QSS3KeyPrefix": {
-                    "default": "Quick Start S3 Key Prefix"
-                },
                 "AccessCIDR": {
                     "default": "Permitted IP range"
-                },
-                "SubnetCIDR": {
-                    "default": "Subnet CIDR"
-                },
-                "VPCCIDR": {
-                    "default": "VPC CIDR"
-                },
-                "LicenseLocation": {
-                    "default": "GitHub License Location"
                 },
                 "GHELicense": {
                     "default": "GitHub License Filename"
@@ -88,41 +87,49 @@
                 "InitialRepository": {
                     "default": "Initial Repository"
                 },
-                "ManagementPassword": {
-                    "default": "Management Password"
-                },
-                "SiteAdminUsername": {
-                    "default": "Site Admin Username"
-                },
-                "SiteAdminUserPassword": {
-                    "default": "Site Admin UserPassword"
-                },
-                "SiteAdminUserEmail": {
-                    "default": "Site Admin User Email"
-                },
-                "VolumeType": {
-                    "default": "Volume Type"
-                },
                 "InstanceType": {
                     "default": "instance Type"
+                },
+                "KeyPairName": {
+                    "default": "Key Pair Name"
+                },
+                "LicenseLocation": {
+                    "default": "GitHub License Location"
+                },
+                "ManagementPassword": {
+                    "default": "Management Password"
                 },
                 "ProvisionedIops": {
                     "default": "Provisioned Iops"
                 },
+                "QSS3BucketName": {
+                    "default": "Quick Start S3 Bucket Name"
+                },
+                "QSS3KeyPrefix": {
+                    "default": "Quick Start S3 Key Prefix"
+                },
+                "SiteAdminUserEmail": {
+                    "default": "Site Admin User Email"
+                },
+                "SiteAdminUserPassword": {
+                    "default": "Site Admin UserPassword"
+                },
+                "SiteAdminUsername": {
+                    "default": "Site Admin Username"
+                },
+                "SubnetCIDR": {
+                    "default": "Subnet CIDR"
+                },
+                "VPCCIDR": {
+                    "default": "VPC CIDR"
+                },
                 "VolumeSize": {
                     "default": "Volume Size"
-                }
-
-            }
-        }
-    },
-    "Conditions": {
-        "GovCloudCondition": {
-            "Fn::Equals": [{
-                    "Ref": "AWS::Region"
                 },
-                "us-gov-west-1"
-            ]
+                "VolumeType": {
+                    "default": "Volume Type"
+                }
+            }
         }
     },
     "Parameters": {
@@ -198,10 +205,10 @@
             "Type": "String"
         },
         "QSS3KeyPrefix": {
-            "AllowedPattern": "^[0-9a-zA-Z-]+(/[0-9a-zA-Z-]+)*$",
-            "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
-            "Default": "github/enterprise/latest",
-            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
+            "AllowedPattern": "^[0-9a-zA-Z-]+(/[0-9a-zA-Z-]+)*/",
+            "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start with forward slash (/) because it is automatically added.",
+            "Default": "github/enterprise/latest/",
+            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start with forward slash (/) because it is automatically added",
             "Type": "String"
         },
         "SiteAdminUserEmail": {
@@ -308,7 +315,8 @@
                 },
                 "TemplateURL": {
                     "Fn::Sub": [
-                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}/templates/quickstart-github-enterprise.template", {
+                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}templates/quickstart-github-enterprise.template",
+                        {
                             "S3Region": {
                                 "Fn::If": [
                                     "GovCloudCondition",
@@ -334,7 +342,14 @@
                 },
                 "TemplateURL": {
                     "Fn::Sub": [
-                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}/templates/quickstart-github-enterprise-single-az-vpc.template", {
+                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}templates/quickstart-github-enterprise-single-az-vpc.template",
+                        {
+                            "QSS3BucketName": {
+                                "Ref": "QSS3BucketName"
+                            },
+                            "QSS3KeyPrefix": {
+                                "Ref": "QSS3KeyPrefix"
+                            },
                             "S3Region": {
                                 "Fn::If": [
                                     "GovCloudCondition",
