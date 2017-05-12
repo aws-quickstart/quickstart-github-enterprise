@@ -88,7 +88,7 @@
                     "default": "Initial Repository"
                 },
                 "InstanceType": {
-                    "default": "instance Type"
+                    "default": "Instance Type"
                 },
                 "KeyPairName": {
                     "default": "Key Pair Name"
@@ -100,7 +100,7 @@
                     "default": "Management Password"
                 },
                 "ProvisionedIops": {
-                    "default": "Provisioned Iops"
+                    "default": "Provisioned IOPS"
                 },
                 "QSS3BucketName": {
                     "default": "Quick Start S3 Bucket Name"
@@ -112,7 +112,7 @@
                     "default": "Site Admin User Email"
                 },
                 "SiteAdminUserPassword": {
-                    "default": "Site Admin UserPassword"
+                    "default": "Site Admin User Password"
                 },
                 "SiteAdminUsername": {
                     "default": "Site Admin Username"
@@ -147,10 +147,12 @@
         },
         "InitialOrganization": {
             "Description": "The initial organization to hold the GitHub Enterprise repository",
+            "Default": "initial-organization",
             "Type": "String"
         },
         "InitialRepository": {
             "Description": "The initial repository to create",
+            "Default": "initial-repository",
             "Type": "String"
         },
         "InstanceType": {
@@ -244,6 +246,7 @@
                 "io1"
             ],
             "Description": "Choose either GP2 or IO1. IO1 is recommended for more than 500 users",
+            "Default": "gp2",
             "Type": "String"
         }
     },
