@@ -97,7 +97,7 @@
                     "default": "Site Admin Username"
                 },
                 "SiteAdminUserPassword": {
-                    "default": "Site Admin UserPassword"
+                    "default": "Site Admin User Password"
                 },
                 "SiteAdminUserEmail": {
                     "default": "Site Admin User Email"
@@ -106,10 +106,10 @@
                     "default": "Volume Type"
                 },
                 "InstanceType": {
-                    "default": "instance Type"
+                    "default": "Instance Type"
                 },
                 "ProvisionedIops": {
-                    "default": "Provisioned Iops"
+                    "default": "Provisioned IOPS"
                 },
                 "VolumeSize": {
                     "default": "Volume Size"
@@ -159,6 +159,9 @@
             },
             "ap-southeast-2": {
                 "AMI": "ami-060f0465"
+            },
+	    "ca-central-1": {
+                "AMI": "ami-35952951"
             },
             "eu-central-1": {
                 "AMI": "ami-5ef02f31"
@@ -263,10 +266,12 @@
         },
         "InitialOrganization": {
             "Description": "The initial organization to hold the GitHub Enterprise repository",
+	    "Default": "initial-organization",
             "Type": "String"
         },
         "InitialRepository": {
             "Description": "The initial repository to create",
+	    "Default": "initial-repository",
             "Type": "String"
         },
         "InstanceType": {
@@ -363,6 +368,7 @@
                 "io1"
             ],
             "Description": "Choose either GP2 or IO1. IO1 is recommended for more than 500 users",
+	    "Default": "gp2",
             "Type": "String"
         }
     },
