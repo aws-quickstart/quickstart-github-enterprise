@@ -344,12 +344,6 @@
                     "Fn::Sub": [
                         "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}templates/quickstart-github-enterprise-single-az-vpc.template",
                         {
-                            "QSS3BucketName": {
-                                "Ref": "QSS3BucketName"
-                            },
-                            "QSS3KeyPrefix": {
-                                "Ref": "QSS3KeyPrefix"
-                            },
                             "S3Region": {
                                 "Fn::If": [
                                     "GovCloudCondition",
