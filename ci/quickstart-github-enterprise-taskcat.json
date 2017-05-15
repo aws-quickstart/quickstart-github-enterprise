@@ -37,7 +37,7 @@
     },
     {
         "ParameterKey": "QSS3KeyPrefix",
-        "ParameterValue": "quickstart-github-enterprise"
+        "ParameterValue": "quickstart-github-enterprise/"
     },
     {
         "ParameterKey": "SiteAdminUserEmail",
