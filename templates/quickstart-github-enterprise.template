@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "QS(5005) GitHub Enterprise Quickstart License: Apache 2.0 (Please do not remove) May,9,2017",
+    "Description": "(qs-1nae5pfk3) Git Hub Enterprise Quickstart License: Apache 2.0 (Please do not remove) May,16,2017",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [{
