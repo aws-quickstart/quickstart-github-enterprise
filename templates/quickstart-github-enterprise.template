@@ -373,6 +373,23 @@
         }
     },
     "Resources": {
+        "GHECloudWatchAlarmInstanceRecovery": {
+            "DependsOn": "EC2Instance",
+            "Type": "AWS::CloudWatch::Alarm",
+            "Properties": {
+                "AlarmDescription": "Trigger a recovery when instance status check fails for 10 consecutive minutes.",
+                "Namespace": "AWS/EC2",
+                "MetricName": "StatusCheckFailed_System",
+                "Statistic": "Minimum",
+                "Period": "60",
+                "EvaluationPeriods": "10",
+                "ComparisonOperator": "GreaterThanThreshold",
+                "Threshold": "0",
+                "TreatMissingData": "breaching",
+                "AlarmActions": [ { "Fn::Join": ["", ["arn:aws:automate:", { "Ref": "AWS::Region" }, ":ec2:recover"]] } ],
+                "Dimensions": [{ "Name": "InstanceId", "Value": { "Ref": "EC2Instance"}  }]
+            }
+        },
         "EC2Instance": {
             "Metadata": {
                 "AWS::CloudFormation::Init": {
