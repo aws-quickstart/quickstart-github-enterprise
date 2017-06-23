@@ -3,62 +3,69 @@
     "Description": "(qs-1nae5pfk3) Git Hub Enterprise Quickstart License: Apache 2.0 (Please do not remove) May,16,2017",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
-            "ParameterGroups": [{
-                "Label": {
-                    "default": " VPC Network Configuration"
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": " VPC Network Configuration"
+                    },
+                    "Parameters": [
+                        "VPCCIDR",
+                        "AccessCIDR",
+                        "SubnetId",
+                        "VPCID"
+                    ]
                 },
-                "Parameters": [
-                    "VPCCIDR",
-                    "AccessCIDR",
-                    "SubnetId",
-                    "VPCID"
-                ]
-            }, {
-                "Label": {
-                    "default": "GitHubEnterprise License"
+                {
+                    "Label": {
+                        "default": "GitHubEnterprise License"
+                    },
+                    "Parameters": [
+                        "LicenseLocation",
+                        "GHELicense"
+                    ]
                 },
-                "Parameters": [
-                    "LicenseLocation",
-                    "GHELicense"
-                ]
-            }, {
-                "Label": {
-                    "default": "GitHub Enterprise Organization and Repository"
+                {
+                    "Label": {
+                        "default": "GitHub Enterprise Organization and Repository"
+                    },
+                    "Parameters": [
+                        "InitialOrganization",
+                        "InitialRepository"
+                    ]
                 },
-                "Parameters": [
-                    "InitialOrganization",
-                    "InitialRepository"
-                ]
-            }, {
-                "Label": {
-                    "default": "Site Admin User Information"
+                {
+                    "Label": {
+                        "default": "Site Admin User Information"
+                    },
+                    "Parameters": [
+                        "ManagementPassword",
+                        "SiteAdminUsername",
+                        "SiteAdminUserEmail",
+                        "SiteAdminUserPassword"
+                    ]
                 },
-                "Parameters": [
-                    "ManagementPassword",
-                    "SiteAdminUsername",
-                    "SiteAdminUserEmail",
-                    "SiteAdminUserPassword"
-                ]
-            }, {
-                "Label": {
-                    "default": "Server Configuration"
+                {
+                    "Label": {
+                        "default": "Server Configuration"
+                    },
+                    "Parameters": [
+                        "InstanceType",
+                        "KeyPairName",
+                        "VolumeType",
+                        "ProvisionedIops",
+                        "VolumeSize"
+                    ]
                 },
-                "Parameters": [
-                    "InstanceType",
-                    "KeyPairName",
-                    "VolumeType",
-                    "ProvisionedIops",
-                    "VolumeSize"
-                ]
-            }, {
-                "Label": {
-                    "default": "AWS Quick Start Configuration"
-                },
-                "Parameters": [
-                    "QSS3BucketName",
-                    "QSS3KeyPrefix"
-                ]
-            }],
+                {
+                    "Label": {
+                        "default": "AWS Quick Start Configuration"
+                    },
+                    "Parameters": [
+                        "QSS3BucketName",
+                        "QSS3KeyPrefix"
+                    ]
+                }
+            ],
             "ParameterLabels": {
                 "KeyPairName": {
                     "default": "Key Pair Name"
@@ -120,20 +127,21 @@
                 "VPCID": {
                     "default": "VPC ID"
                 }
-
             }
         }
     },
     "Conditions": {
         "GovCloudCondition": {
-            "Fn::Equals": [{
+            "Fn::Equals": [
+                {
                     "Ref": "AWS::Region"
                 },
                 "us-gov-west-1"
             ]
         },
         "Io1Set": {
-            "Fn::Equals": [{
+            "Fn::Equals": [
+                {
                     "Ref": "VolumeType"
                 },
                 "io1"
@@ -160,7 +168,7 @@
             "ap-southeast-2": {
                 "AMI": "ami-060f0465"
             },
-	    "ca-central-1": {
+            "ca-central-1": {
                 "AMI": "ami-35952951"
             },
             "eu-central-1": {
@@ -221,8 +229,10 @@
             "Description": "URL of the primary instance",
             "Value": {
                 "Fn::Join": [
-                    "", [
-                        "http://", {
+                    "",
+                    [
+                        "http://",
+                        {
                             "Fn::GetAtt": [
                                 "EC2Instance",
                                 "PublicIp"
@@ -266,12 +276,12 @@
         },
         "InitialOrganization": {
             "Description": "The initial organization to hold the GitHub Enterprise repository",
-	    "Default": "initial-organization",
+            "Default": "initial-organization",
             "Type": "String"
         },
         "InitialRepository": {
             "Description": "The initial repository to create",
-	    "Default": "initial-repository",
+            "Default": "initial-repository",
             "Type": "String"
         },
         "InstanceType": {
@@ -368,11 +378,47 @@
                 "io1"
             ],
             "Description": "Choose either GP2 or IO1. IO1 is recommended for more than 500 users",
-	    "Default": "gp2",
+            "Default": "gp2",
             "Type": "String"
         }
     },
     "Resources": {
+        "GHECloudWatchAlarmInstanceRecovery": {
+            "DependsOn": "EC2Instance",
+            "Type": "AWS::CloudWatch::Alarm",
+            "Properties": {
+                "AlarmDescription": "Trigger a recovery when instance status check fails for 10 consecutive minutes.",
+                "Namespace": "AWS/EC2",
+                "MetricName": "StatusCheckFailed_System",
+                "Statistic": "Minimum",
+                "Period": "60",
+                "EvaluationPeriods": "10",
+                "ComparisonOperator": "GreaterThanThreshold",
+                "Threshold": "0",
+                "AlarmActions": [
+                    {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "arn:aws:automate:",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                ":ec2:recover"
+                            ]
+                        ]
+                    }
+                ],
+                "Dimensions": [
+                    {
+                        "Name": "InstanceId",
+                        "Value": {
+                            "Ref": "EC2Instance"
+                        }
+                    }
+                ]
+            }
+        },
         "EC2Instance": {
             "Metadata": {
                 "AWS::CloudFormation::Init": {
@@ -381,36 +427,45 @@
                             "/etc/gheadmin.conf": {
                                 "content": {
                                     "Fn::Join": [
-                                        "", [
-                                            "github_console_password:", {
+                                        "",
+                                        [
+                                            "github_console_password:",
+                                            {
                                                 "Ref": "ManagementPassword"
                                             },
                                             "\n",
-                                            "github_s3_bucket:", {
+                                            "github_s3_bucket:",
+                                            {
                                                 "Ref": "LicenseLocation"
                                             },
                                             "\n",
-                                            "github_adminuser_name:", {
+                                            "github_adminuser_name:",
+                                            {
                                                 "Ref": "SiteAdminUsername"
                                             },
                                             "\n",
-                                            "github_adminuser_email:", {
+                                            "github_adminuser_email:",
+                                            {
                                                 "Ref": "SiteAdminUserEmail"
                                             },
                                             "\n",
-                                            "github_adminuser_password:", {
+                                            "github_adminuser_password:",
+                                            {
                                                 "Ref": "SiteAdminUserPassword"
                                             },
                                             "\n",
-                                            "github_organization:", {
+                                            "github_organization:",
+                                            {
                                                 "Ref": "InitialOrganization"
                                             },
                                             "\n",
-                                            "github_repository:", {
+                                            "github_repository:",
+                                            {
                                                 "Ref": "InitialRepository"
                                             },
                                             "\n",
-                                            "github_license_file:", {
+                                            "github_license_file:",
+                                            {
                                                 "Ref": "GHELicense"
                                             },
                                             "\n"
@@ -426,34 +481,39 @@
                 }
             },
             "Properties": {
-                "BlockDeviceMappings": [{
-                    "DeviceName": "/dev/xvdf",
-                    "Ebs": {
-                        "Encrypted": "true",
-                        "Iops": {
-                            "Fn::If": [
-                                "Io1Set", {
-                                    "Ref": "ProvisionedIops"
-                                }, {
-                                    "Ref": "AWS::NoValue"
-                                }
-                            ]
-                        },
-                        "VolumeSize": {
-                            "Ref": "VolumeSize"
-                        },
-                        "VolumeType": {
-                            "Ref": "VolumeType"
+                "BlockDeviceMappings": [
+                    {
+                        "DeviceName": "/dev/xvdf",
+                        "Ebs": {
+                            "Encrypted": "true",
+                            "Iops": {
+                                "Fn::If": [
+                                    "Io1Set",
+                                    {
+                                        "Ref": "ProvisionedIops"
+                                    },
+                                    {
+                                        "Ref": "AWS::NoValue"
+                                    }
+                                ]
+                            },
+                            "VolumeSize": {
+                                "Ref": "VolumeSize"
+                            },
+                            "VolumeType": {
+                                "Ref": "VolumeType"
+                            }
                         }
                     }
-                }],
+                ],
                 "EbsOptimized": "true",
                 "IamInstanceProfile": {
                     "Ref": "EC2InstanceProfile"
                 },
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSAMIRegionMap", {
+                        "AWSAMIRegionMap",
+                        {
                             "Ref": "AWS::Region"
                         },
                         "AMI"
@@ -465,20 +525,25 @@
                 "KeyName": {
                     "Ref": "KeyPairName"
                 },
-                "SecurityGroupIds": [{
-                    "Ref": "InstanceSecurityGroup"
-                }],
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "InstanceSecurityGroup"
+                    }
+                ],
                 "SubnetId": {
                     "Ref": "SubnetId"
                 },
-                "Tags": [{
-                    "Key": "Name",
-                    "Value": "GitHub Enterprise"
-                }],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "GitHub Enterprise"
+                    }
+                ],
                 "UserData": {
                     "Fn::Base64": {
                         "Fn::Join": [
-                            "", [
+                            "",
+                            [
                                 "#!/bin/bash\n",
                                 "easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz \n",
                                 "wget https://bootstrap.pypa.io/get-pip.py\n",
@@ -486,17 +551,21 @@
                                 "sudo pip install awscli\n",
                                 "sleep 5\n",
                                 "/usr/local/bin/cfn-init ",
-                                " --stack ", {
+                                " --stack ",
+                                {
                                     "Ref": "AWS::StackName"
                                 },
                                 " --resource EC2Instance ",
-                                " --region ", {
+                                " --region ",
+                                {
                                     "Ref": "AWS::Region"
                                 },
                                 "\n",
-                                "SRC=", {
+                                "SRC=",
+                                {
                                     "Fn::Sub": [
-                                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}", {
+                                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}",
+                                        {
                                             "S3Region": {
                                                 "Fn::If": [
                                                     "GovCloudCondition",
@@ -512,9 +581,11 @@
                                 "curl -L $SRC | bash -s $(cat $ADMININFO| grep github_console_password | awk -F: '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_s3_bucket | awk -F: '{print $2}') ",
                                 "$(cat $ADMININFO| grep github_license_file | awk -F: '{print $2}'); \n",
-                                "SetUp=", {
+                                "SetUp=",
+                                {
                                     "Fn::Sub": [
-                                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}", {
+                                        "https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}",
+                                        {
                                             "S3Region": {
                                                 "Fn::If": [
                                                     "GovCloudCondition",
@@ -533,11 +604,12 @@
                                 "$(cat $ADMININFO| grep github_repository | awk -F':' '{print $2}'); \n",
                                 "echo \"exit code \"$? \n",
                                 "/usr/local/bin/cfn-signal -e $? ",
-                                " '", {
+                                " '",
+                                {
                                     "Ref": "WaitforGitHubEnterpriseInstall"
                                 },
                                 "'\n",
-				" rm -f $ADMINNIFO\n"
+                                " rm -f $ADMINNIFO\n"
                             ]
                         ]
                     }
@@ -548,26 +620,30 @@
         "EC2InstanceProfile": {
             "Properties": {
                 "Path": "/",
-                "Roles": [{
-                    "Ref": "EC2InstanceRole"
-                }]
+                "Roles": [
+                    {
+                        "Ref": "EC2InstanceRole"
+                    }
+                ]
             },
             "Type": "AWS::IAM::InstanceProfile"
         },
         "EC2InstanceRole": {
             "Properties": {
                 "AssumeRolePolicyDocument": {
-                    "Statement": [{
-                        "Action": [
-                            "sts:AssumeRole"
-                        ],
-                        "Effect": "Allow",
-                        "Principal": {
-                            "Service": [
-                                "ec2.amazonaws.com"
-                            ]
+                    "Statement": [
+                        {
+                            "Action": [
+                                "sts:AssumeRole"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            }
                         }
-                    }],
+                    ],
                     "Version": "2012-10-17"
                 },
                 "ManagedPolicyArns": [
@@ -599,77 +675,88 @@
         "InstanceSecurityGroup": {
             "Properties": {
                 "GroupDescription": "Ports needed for GitHub Enterprise",
-                "SecurityGroupIngress": [{
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "22",
+                        "IpProtocol": "tcp",
+                        "ToPort": "22"
                     },
-                    "FromPort": "22",
-                    "IpProtocol": "tcp",
-                    "ToPort": "22"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "8080",
+                        "IpProtocol": "tcp",
+                        "ToPort": "8080"
                     },
-                    "FromPort": "8080",
-                    "IpProtocol": "tcp",
-                    "ToPort": "8080"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "122",
+                        "IpProtocol": "tcp",
+                        "ToPort": "122"
                     },
-                    "FromPort": "122",
-                    "IpProtocol": "tcp",
-                    "ToPort": "122"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "1194",
+                        "IpProtocol": "udp",
+                        "ToPort": "1194"
                     },
-                    "FromPort": "1194",
-                    "IpProtocol": "udp",
-                    "ToPort": "1194"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "161",
+                        "IpProtocol": "udp",
+                        "ToPort": "161"
                     },
-                    "FromPort": "161",
-                    "IpProtocol": "udp",
-                    "ToPort": "161"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "443",
+                        "IpProtocol": "tcp",
+                        "ToPort": "443"
                     },
-                    "FromPort": "443",
-                    "IpProtocol": "tcp",
-                    "ToPort": "443"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "80",
+                        "IpProtocol": "tcp",
+                        "ToPort": "80"
                     },
-                    "FromPort": "80",
-                    "IpProtocol": "tcp",
-                    "ToPort": "80"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "9418",
+                        "IpProtocol": "tcp",
+                        "ToPort": "9418"
                     },
-                    "FromPort": "9418",
-                    "IpProtocol": "tcp",
-                    "ToPort": "9418"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "25",
+                        "IpProtocol": "tcp",
+                        "ToPort": "25"
                     },
-                    "FromPort": "25",
-                    "IpProtocol": "tcp",
-                    "ToPort": "25"
-                }, {
-                    "CidrIp": {
-                        "Ref": "AccessCIDR"
-                    },
-                    "FromPort": "8443",
-                    "IpProtocol": "tcp",
-                    "ToPort": "8443"
-                }],
+                    {
+                        "CidrIp": {
+                            "Ref": "AccessCIDR"
+                        },
+                        "FromPort": "8443",
+                        "IpProtocol": "tcp",
+                        "ToPort": "8443"
+                    }
+                ],
                 "VpcId": {
                     "Ref": "VPCID"
                 }
