@@ -27,15 +27,18 @@
                     "Ref": "VPCCIDR"
                 },
                 "EnableDnsHostnames": "true",
-                "Tags": [{
-                    "Key": "Application",
-                    "Value": {
-                        "Ref": "AWS::StackName"
+                "Tags": [
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    },
+                    {
+                        "Key": "Network",
+                        "Value": "Public"
                     }
-                }, {
-                    "Key": "Network",
-                    "Value": "Public"
-                }]
+                ]
             }
         },
         "PublicSubnet": {
@@ -50,37 +53,45 @@
                 "MapPublicIpOnLaunch": "true",
                 "AvailabilityZone": {
                     "Fn::Select": [
-                        1, {
+                        1,
+                        {
                             "Fn::GetAZs": ""
                         }
                     ]
                 },
-                "Tags": [{
-                    "Key": "Application",
-                    "Value": {
-                        "Ref": "AWS::StackName"
+                "Tags": [
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    },
+                    {
+                        "Key": "Network",
+                        "Value": "Public"
+                    },
+                    {
+                        "Key": "Role",
+                        "Value": "Public Subnet"
                     }
-                }, {
-                    "Key": "Network",
-                    "Value": "Public"
-                }, {
-                    "Key": "Role",
-                    "Value": "Public Subnet"
-                }]
+                ]
             }
         },
         "InternetGateway": {
             "Type": "AWS::EC2::InternetGateway",
             "Properties": {
-                "Tags": [{
-                    "Key": "Application",
-                    "Value": {
-                        "Ref": "AWS::StackName"
+                "Tags": [
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    },
+                    {
+                        "Key": "Network",
+                        "Value": "Public"
                     }
-                }, {
-                    "Key": "Network",
-                    "Value": "Public"
-                }]
+                ]
             }
         },
         "AttachGateway": {
@@ -100,15 +111,18 @@
                 "VpcId": {
                     "Ref": "VPC"
                 },
-                "Tags": [{
-                    "Key": "Application",
-                    "Value": {
-                        "Ref": "AWS::StackName"
+                "Tags": [
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    },
+                    {
+                        "Key": "Network",
+                        "Value": "Public Subnet"
                     }
-                }, {
-                    "Key": "Network",
-                    "Value": "Public Subnet"
-                }]
+                ]
             }
         },
         "PublicRoute": {
