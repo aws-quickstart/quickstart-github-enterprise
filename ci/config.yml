@@ -7,7 +7,6 @@ global:
     - us-west-1
     - us-west-2
   reporting: true
- 
 tests:
   github:
     parameter_input: quickstart-github-enterprise.json

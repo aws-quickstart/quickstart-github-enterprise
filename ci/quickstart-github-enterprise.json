@@ -1,7 +1,7 @@
 [
     {
         "ParameterKey": "AccessCIDR",
-        "ParameterValue": "1.2.3.4/0"
+        "ParameterValue": "0.0.0.0/0"
     },
     {
         "ParameterKey": "GHELicense",
@@ -9,11 +9,11 @@
     },
     {
         "ParameterKey": "InitialOrganization",
-        "ParameterValue": "MyOrg"
+        "ParameterValue": "quickstart-created-repo"
     },
     {
         "ParameterKey": "InitialRepository",
-        "ParameterValue": "MyRepo"
+        "ParameterValue": "repo1"
     },
     {
         "ParameterKey": "InstanceType",
@@ -21,15 +21,23 @@
     },
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": "cikey"
+        "ParameterValue": "tonynv"
     },
     {
         "ParameterKey": "LicenseLocation",
-        "ParameterValue": "quickstart-ci-license/github"
+        "ParameterValue": "quickstart-temp-lic"
     },
     {
         "ParameterKey": "ManagementPassword",
-        "ParameterValue": "$[alfred_genpass_8]"
+        "ParameterValue": "$[taskcat_genpass_8]"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
+    },
+    {
+        "ParameterKey": "QSS3KeyPrefix",
+        "ParameterValue": "quickstart-github-enterprise/"
     },
     {
         "ParameterKey": "SiteAdminUserEmail",
@@ -37,7 +45,7 @@
     },
     {
         "ParameterKey": "SiteAdminUserPassword",
-        "ParameterValue": "$[alfred_genpass_8]"
+        "ParameterValue": "$[taskcat_genpass_8]"
     },
     {
         "ParameterKey": "SiteAdminUsername",
