@@ -25,15 +25,15 @@
     },
     {
         "ParameterKey": "LicenseLocation",
-        "ParameterValue": "tonynv"
+        "ParameterValue": "quickstart-temp-lic"
     },
     {
         "ParameterKey": "ManagementPassword",
-        "ParameterValue": "$[alfred_genpass_8]"
+        "ParameterValue": "$[taskcat_genpass_8]"
     },
     {
         "ParameterKey": "QSS3BucketName",
-        "ParameterValue": "tonynv"
+        "ParameterValue": "$[taskcat_autobucket]"
     },
     {
         "ParameterKey": "QSS3KeyPrefix",
@@ -45,7 +45,7 @@
     },
     {
         "ParameterKey": "SiteAdminUserPassword",
-        "ParameterValue": "$[alfred_genpass_8]"
+        "ParameterValue": "$[taskcat_genpass_8]"
     },
     {
         "ParameterKey": "SiteAdminUsername",
