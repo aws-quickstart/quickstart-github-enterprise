@@ -151,7 +151,7 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "GHE29": "GitHub Enterprise 2.9.4"
+                "GHE213": "GitHub Enterprise 2.13.1"
             },
             "ap-northeast-1": {
                 "AMI": "ami-00b833e649a073915"
