@@ -151,49 +151,49 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "GHE29": "GitHub Enterprise 2.9.4"
+                "GHE213": "GitHub Enterprise 2.13.1"
             },
             "ap-northeast-1": {
-                "AMI": "ami-f66b5d91"
+                "AMI": "ami-00b833e649a073915"
             },
             "ap-northeast-2": {
-                "AMI": "ami-5bbb6635"
+                "AMI": "ami-04da190f0e0895fb4"
             },
             "ap-south-1": {
-                "AMI": "ami-72f0821d"
+                "AMI": "ami-0c986b3bd8c23ea56"
             },
             "ap-southeast-1": {
-                "AMI": "ami-1a73c979"
+                "AMI": "ami-007ebc25e6a37127c"
             },
             "ap-southeast-2": {
-                "AMI": "ami-060f0465"
+                "AMI": "ami-071a5dabbbb6ed946"
             },
             "ca-central-1": {
-                "AMI": "ami-35952951"
+                "AMI": "ami-036440dc7454bab66"
             },
             "eu-central-1": {
-                "AMI": "ami-5ef02f31"
+                "AMI": "ami-0bf04cb8adbbfce19"
             },
             "eu-west-1": {
-                "AMI": "ami-5ba5a73d"
+                "AMI": "ami-0a6a17657ea1d1124"
             },
             "eu-west-2": {
-                "AMI": "ami-7cb3a718"
+                "AMI": "ami-04ca16343ab2b4c86"
             },
             "sa-east-1": {
-                "AMI": "ami-5f462a33"
+                "AMI": "ami-070588500991c9988"
             },
             "us-east-1": {
-                "AMI": "ami-8d6c019b"
+                "AMI": "ami-00350e4ef027200a3"
             },
             "us-east-2": {
-                "AMI": "ami-b80126dd"
+                "AMI": "ami-043dd407445de0373"
             },
             "us-west-1": {
-                "AMI": "ami-00a58260"
+                "AMI": "ami-052fe8124c98d28be"
             },
             "us-west-2": {
-                "AMI": "ami-155cc475"
+                "AMI": "ami-003f7be2a1c913a86"
             }
         }
     },
