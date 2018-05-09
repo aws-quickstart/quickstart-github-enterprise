@@ -9,5 +9,5 @@ global:
   reporting: true
 tests:
   github:
-    parameter_input: quickstart-github-enterprise.json
+    parameter_input: github-enterprise-input.json
     template_file: quickstart-github-enterprise-master.template

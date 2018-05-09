@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "(qs-1nae5pfk9) GitHub Enterprise+VPC Quickstart License: Apache 2.0 (Please do not remove) May,16,2017",
+    "Description": "(qs-1nae5pfk9) GitHub Enterprise+VPC Quickstart License: Apache 2.0 (Please do not remove) May,08,2018",
     "Conditions": {
         "GovCloudCondition": {
             "Fn::Equals": [
