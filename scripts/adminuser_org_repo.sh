@@ -27,6 +27,20 @@ else
 fi
 }
 
+cat <<-EOF | ghe-console -y > /dev/null
+  exit 1 if !GitHub.enterprise_first_run?
+
+  USER = "$1"
+  EMAIL = "$2"
+  PASSWD = "$3"
+
+  user = User.create_with_random_password USER
+  user.email = EMAIL
+  user.password = user.password_confirmation = PASSWD
+  if user.valid?
+    user.save
+  end
+EOF
 
 MAKE_ORG=$(curl -i -k -L -H "Content-Type: application/json" --write-out '%{http_code}' --silent -d "{\"login\": ${ORG}, \"admin\": ${ADMIN_USER}}" -X POST https://$1:$3@${EC2_IP}/api/v3/admin/organizations)
 
