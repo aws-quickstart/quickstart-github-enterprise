@@ -151,49 +151,52 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "GHE213": "GitHub Enterprise 2.13.1"
+                "GHE216": "GitHub Enterprise 2.16.3"
             },
             "ap-northeast-1": {
-                "AMI": "ami-00b833e649a073915"
+                "AMI": "ami-0ef588f23257fd613"
             },
             "ap-northeast-2": {
-                "AMI": "ami-04da190f0e0895fb4"
+                "AMI": "ami-0292d2674c8b4eaaa"
             },
             "ap-south-1": {
-                "AMI": "ami-0c986b3bd8c23ea56"
+                "AMI": "ami-01995159cd1f3a94b"
             },
             "ap-southeast-1": {
-                "AMI": "ami-007ebc25e6a37127c"
+                "AMI": "ami-0839db80fe2b2e2e0"
             },
             "ap-southeast-2": {
-                "AMI": "ami-071a5dabbbb6ed946"
+                "AMI": "ami-07bab1e7f3c6047c5"
             },
             "ca-central-1": {
-                "AMI": "ami-036440dc7454bab66"
+                "AMI": "ami-049df9ee661f07dce"
             },
             "eu-central-1": {
-                "AMI": "ami-0bf04cb8adbbfce19"
+                "AMI": "ami-05452dc566cfb2b8b"
             },
             "eu-west-1": {
-                "AMI": "ami-0a6a17657ea1d1124"
+                "AMI": "ami-08ce39e00cf4aa582"
             },
             "eu-west-2": {
-                "AMI": "ami-04ca16343ab2b4c86"
+                "AMI": "ami-0401170cb076e7e94"
+            },
+            "eu-west-3": {
+                "AMI": "ami-0da017106e76007d7"
             },
             "sa-east-1": {
-                "AMI": "ami-070588500991c9988"
+                "AMI": "ami-055df736f45feba84"
             },
             "us-east-1": {
-                "AMI": "ami-00350e4ef027200a3"
+                "AMI": "ami-0fe2cd72e7cbf6637"
             },
             "us-east-2": {
-                "AMI": "ami-043dd407445de0373"
+                "AMI": "ami-0db23da3510b74a8a"
             },
             "us-west-1": {
-                "AMI": "ami-052fe8124c98d28be"
+                "AMI": "ami-077123597a56fe7bb"
             },
             "us-west-2": {
-                "AMI": "ami-003f7be2a1c913a86"
+                "AMI": "ami-0a9589507e0f65133"
             }
         }
     },
