@@ -1,3 +1,4 @@
+
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "(qs-1nae5pfk3) Git Hub Enterprise Quickstart License: Apache 2.0 (Please do not remove) May,08,2018",
@@ -9,7 +10,6 @@
                         "default": " VPC Network Configuration"
                     },
                     "Parameters": [
-                        "VPCCIDR",
                         "AccessCIDR",
                         "SubnetId",
                         "VPCID"
@@ -79,12 +79,6 @@
                 "AccessCIDR": {
                     "default": "Permitted IP range"
                 },
-                "SubnetCIDR": {
-                    "default": "Subnet CIDR"
-                },
-                "VPCCIDR": {
-                    "default": "VPC CIDR"
-                },
                 "LicenseLocation": {
                     "default": "GitHub License Location"
                 },
@@ -151,49 +145,49 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "GHE213": "GitHub Enterprise 2.13.1"
+                "GHE": "GitHub Enterprise Server 2.18.1"
             },
             "ap-northeast-1": {
-                "AMI": "ami-00b833e649a073915"
+                "GHE": "ami-00b833e649a073915"
             },
             "ap-northeast-2": {
-                "AMI": "ami-04da190f0e0895fb4"
+                "GHE": "ami-04da190f0e0895fb4"
             },
             "ap-south-1": {
-                "AMI": "ami-0c986b3bd8c23ea56"
+                "GHE": "ami-0c986b3bd8c23ea56"
             },
             "ap-southeast-1": {
-                "AMI": "ami-007ebc25e6a37127c"
+                "GHE": "ami-0d9ca5d620fe1a9bf"
             },
             "ap-southeast-2": {
-                "AMI": "ami-071a5dabbbb6ed946"
+                "GHE": "ami-0f70fdef5a4dc619a"
             },
             "ca-central-1": {
-                "AMI": "ami-036440dc7454bab66"
+                "GHE": "ami-036440dc7454bab66"
             },
             "eu-central-1": {
-                "AMI": "ami-0bf04cb8adbbfce19"
+                "GHE": "ami-0bf04cb8adbbfce19"
             },
             "eu-west-1": {
-                "AMI": "ami-0a6a17657ea1d1124"
+                "GHE": "ami-0a6a17657ea1d1124"
             },
             "eu-west-2": {
-                "AMI": "ami-04ca16343ab2b4c86"
+                "GHE": "ami-04ca16343ab2b4c86"
             },
             "sa-east-1": {
-                "AMI": "ami-070588500991c9988"
+                "GHE": "ami-070588500991c9988"
             },
             "us-east-1": {
-                "AMI": "ami-00350e4ef027200a3"
+                "GHE": "ami-068c0475694f6a93b"
             },
             "us-east-2": {
-                "AMI": "ami-043dd407445de0373"
+                "GHE": "ami-043dd407445de0373"
             },
             "us-west-1": {
-                "AMI": "ami-052fe8124c98d28be"
+                "GHE": "ami-052fe8124c98d28be"
             },
             "us-west-2": {
-                "AMI": "ami-003f7be2a1c913a86"
+                "GHE": "ami-003f7be2a1c913a86"
             }
         }
     },
@@ -384,17 +378,16 @@
     },
     "Resources": {
         "GHECloudWatchAlarmInstanceRecovery": {
-            "DependsOn": "EC2Instance",
             "Type": "AWS::CloudWatch::Alarm",
             "Properties": {
                 "AlarmDescription": "Trigger a recovery when instance status check fails for 10 consecutive minutes.",
                 "Namespace": "AWS/EC2",
                 "MetricName": "StatusCheckFailed_System",
                 "Statistic": "Minimum",
-                "Period": "60",
-                "EvaluationPeriods": "10",
+                "Period": 60,
+                "EvaluationPeriods": 10,
                 "ComparisonOperator": "GreaterThanThreshold",
-                "Threshold": "0",
+                "Threshold": 0,
                 "AlarmActions": [
                     {
                         "Fn::Join": [
@@ -485,7 +478,7 @@
                     {
                         "DeviceName": "/dev/xvdf",
                         "Ebs": {
-                            "Encrypted": "true",
+                            "Encrypted": true,
                             "Iops": {
                                 "Fn::If": [
                                     "Io1Set",
@@ -506,7 +499,7 @@
                         }
                     }
                 ],
-                "EbsOptimized": "true",
+                "EbsOptimized": true,
                 "IamInstanceProfile": {
                     "Ref": "EC2InstanceProfile"
                 },
@@ -516,7 +509,7 @@
                         {
                             "Ref": "AWS::Region"
                         },
-                        "AMI"
+                        "GHE"
                     ]
                 },
                 "InstanceType": {
@@ -680,81 +673,81 @@
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "22",
+                        "FromPort": 22,
                         "IpProtocol": "tcp",
-                        "ToPort": "22"
+                        "ToPort": 22
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "8080",
+                        "FromPort": 8080,
                         "IpProtocol": "tcp",
-                        "ToPort": "8080"
+                        "ToPort": 8080
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "122",
+                        "FromPort": 122,
                         "IpProtocol": "tcp",
-                        "ToPort": "122"
+                        "ToPort": 122
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "1194",
+                        "FromPort": 1194,
                         "IpProtocol": "udp",
-                        "ToPort": "1194"
+                        "ToPort": 1194
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "161",
+                        "FromPort": 161,
                         "IpProtocol": "udp",
-                        "ToPort": "161"
+                        "ToPort": 161
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "443",
+                        "FromPort": 443,
                         "IpProtocol": "tcp",
-                        "ToPort": "443"
+                        "ToPort": 443
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "80",
+                        "FromPort": 80,
                         "IpProtocol": "tcp",
-                        "ToPort": "80"
+                        "ToPort": 80
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "9418",
+                        "FromPort": 9418,
                         "IpProtocol": "tcp",
-                        "ToPort": "9418"
+                        "ToPort": 9418
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "25",
+                        "FromPort": 25,
                         "IpProtocol": "tcp",
-                        "ToPort": "25"
+                        "ToPort": 25
                     },
                     {
                         "CidrIp": {
                             "Ref": "AccessCIDR"
                         },
-                        "FromPort": "8443",
+                        "FromPort": 8443,
                         "IpProtocol": "tcp",
-                        "ToPort": "8443"
+                        "ToPort": 8443
                     }
                 ],
                 "VpcId": {
