@@ -39,12 +39,15 @@ Metadata:
           default: AWS Quick Start Configuration
         Parameters:
           - QSS3BucketName
+          - QSS3BucketRegion
           - QSS3KeyPrefix
     ParameterLabels:
       KeyPairName:
         default: Key Pair Name
       QSS3BucketName:
         default: Quick Start S3 Bucket Name
+      QSS3BucketRegion:
+        default: Quick Start S3 bucket region
       QSS3KeyPrefix:
         default: Quick Start S3 Key Prefix
       AccessCIDR:
@@ -84,6 +87,7 @@ Conditions:
   Io1Set: !Equals
     - !Ref 'VolumeType'
     - io1
+  UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Mappings:
   AWSAMIRegionMap:
     AMI:
@@ -216,6 +220,10 @@ Parameters:
     Description: S3 bucket name for the Quick Start assets. Quick Start bucket name
       can include numbers, lowercase letters, uppercase letters, and hyphens (-).
       It cannot start or end with a hyphen (-).
+    Type: String
+  QSS3BucketRegion:
+    Default: 'us-east-1'
+    Description: 'The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.'
     Type: String
   QSS3KeyPrefix:
     AllowedPattern: ^[0-9a-zA-Z-]+(/[0-9a-zA-Z-]+)*/
@@ -362,11 +370,9 @@ Resources:
             - "\n"
             - SRC=
             - !Sub
-              - https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}
-              - S3Region: !If
-                  - GovCloudCondition
-                  - s3-us-gov-west-1
-                  - s3
+              - https://${S3Bucket}.s3.${S3Region}.amazonaws.com/${QSS3KeyPrefix}
+              - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+                S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
             - "scripts/scripts_userdata.sh \n"
             - "ADMININFO='/etc/gheadmin.conf'\n"
             - 'curl -L $SRC | bash -s $(cat $ADMININFO| grep github_console_password
@@ -376,11 +382,9 @@ Resources:
               \ \n"
             - SetUp=
             - !Sub
-              - https://${QSS3BucketName}.${S3Region}.amazonaws.com/${QSS3KeyPrefix}
-              - S3Region: !If
-                  - GovCloudCondition
-                  - s3-us-gov-west-1
-                  - s3
+              - https://${S3Bucket}.s3.${S3Region}.amazonaws.com/${QSS3KeyPrefix}
+              - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+                S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
             - "scripts/adminuser_org_repo.sh \n"
             - 'curl -L $SetUp | bash -s $(cat $ADMININFO| grep github_adminuser_name
               | awk -F'':'' ''{print $2}'') '
