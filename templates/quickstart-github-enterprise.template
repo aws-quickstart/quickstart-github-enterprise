@@ -91,35 +91,35 @@ Conditions:
 Mappings:
   AWSAMIRegionMap:
     AMI:
-      GHE: GitHub Enterprise Server 2.18.1
+      GHE: GitHub Enterprise Server 2.21.1
     ap-northeast-1:
-      GHE: ami-00b833e649a073915
+      GHE: ami-080ef0f553a38f314
     ap-northeast-2:
-      GHE: ami-04da190f0e0895fb4
+      GHE: ami-015cfc57390e48e96
     ap-south-1:
-      GHE: ami-0c986b3bd8c23ea56
+      GHE: ami-033d888efbd34b0c3
     ap-southeast-1:
-      GHE: ami-0d9ca5d620fe1a9bf
+      GHE: ami-0f0f82523fc0502fd
     ap-southeast-2:
-      GHE: ami-0f70fdef5a4dc619a
+      GHE: ami-0c871c03de5758e69
     ca-central-1:
-      GHE: ami-036440dc7454bab66
+      GHE: ami-0085754627e9de847
     eu-central-1:
-      GHE: ami-0bf04cb8adbbfce19
+      GHE: ami-0830b0f3c1b9104a1
     eu-west-1:
-      GHE: ami-0a6a17657ea1d1124
+      GHE: ami-089cc2ad6d9b8051f
     eu-west-2:
-      GHE: ami-04ca16343ab2b4c86
+      GHE: ami-0bc87c2d8746abad0
     sa-east-1:
-      GHE: ami-070588500991c9988
+      GHE: ami-08a18e1a7ff0bf469
     us-east-1:
-      GHE: ami-068c0475694f6a93b
+      GHE: ami-0d7ae4aa6e873da84
     us-east-2:
-      GHE: ami-043dd407445de0373
+      GHE: ami-04cdb812febfe6482
     us-west-1:
-      GHE: ami-052fe8124c98d28be
+      GHE: ami-06d50dee65f5d0be5
     us-west-2:
-      GHE: ami-003f7be2a1c913a86
+      GHE: ami-0dd2ded2b921b1b23
 Outputs:
   AvailabilityZone:
     Description: Availability Zone of the newly created EC2 instance
