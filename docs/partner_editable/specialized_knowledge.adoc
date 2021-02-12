@@ -3,4 +3,9 @@
 // Include links if helpful. 
 // You don't need to list AWS services or point to general info about AWS; the boilerplate already covers this.
 
-This Quick Start also assumes familiarity with <knowledge expectations specific to this Quick Start>.
+Before you deploy this Quick Start, we recommend that you become familiar with the following AWS services. (If you are new to AWS, see https://docs.aws.amazon.com/gettingstarted/latest/awsgsg-intro/intro.html[Getting Started with AWS].)
+
+* https://aws.amazon.com/documentation/vpc/[Amazon VPC]
+* https://aws.amazon.com/documentation/ec2/[Amazon EC2]
+* https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html[Amazon EBS]
+* http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html[Amazon CloudWatch]

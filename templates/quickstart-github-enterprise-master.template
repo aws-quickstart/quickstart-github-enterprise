@@ -7,6 +7,9 @@ Conditions:
     - us-gov-west-1
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Metadata:
+  QuickStartDocumentation:
+    EntrypointName: "Launch into a new VPC"
+    Order: "1"
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:

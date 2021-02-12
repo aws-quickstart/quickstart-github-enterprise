@@ -2,6 +2,9 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: '(qs-1nae5pfk3) Git Hub Enterprise Quickstart License: Apache 2.0 (Please
   do not remove) May,08,2018'
 Metadata:
+  QuickStartDocumentation:
+    EntrypointName: "Launch into an existing VPC"
+    Order: "2"
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
