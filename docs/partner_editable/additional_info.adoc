@@ -38,20 +38,23 @@ image::../images/image2.png[Architecture,width=75%,height=75%]
 .Finding the GitHub repository created by the Quick Start 
 image::../images/image3.png[Architecture,width=75%,height=75%]
 
-* Select the repository name. This is the repository you specified in the Quick Start parameters in step 3 (*repo1* in the following figure).
+[start=5]
+5. Select the repository name. This is the repository you specified in the Quick Start parameters in step 3 (*repo1* in the following figure).
 
 [#additional4]
 .Choosing the sample repository 
 image::../images/image4.png[Architecture,width=75%,height=75%]
 
-* Choose *Clone or download*, and then copy the Git URL that’s displayed by choosing the Clipboard icon
+[start=6]
+6. Choose *Clone or download*, and then copy the Git URL that’s displayed by choosing the Clipboard icon
 
 [#additional5]
 .Cloning the repository
 image::../images/image5.png[Architecture,width=75%,height=75%]
 
-* Open a terminal shell. (This requires that you install https://git-scm.com/[Git] on your workstation, as instructed in the Prerequisites section.)
-* Use the Git CLI to clone your repository:
+[start=7]
+7. Open a terminal shell. (This requires that you install https://git-scm.com/[Git] on your workstation, as instructed in the Prerequisites section.)
+8. Use the Git CLI to clone your repository:
 
 ----
 git clone git@13.58.62.155:quickstart-created-repo/repo1.git
