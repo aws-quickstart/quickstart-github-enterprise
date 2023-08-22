@@ -1,10 +1,42 @@
-This guide covers the information you need to deploy the {partner-product-name} Partner Solution in the AWS Cloud.
+This guide provides instructions for deploying the {partner-product-short-name} Partner Solution reference architecture on the AWS Cloud. http://aws.amazon.com/quickstart/[Partner Solutions] are automated reference deployments that use AWS CloudFormation templates to launch, configure, and run the AWS compute, network, storage, and other services required to deploy a specific workload on AWS. 
 
-// Fill in the info in <angle brackets> for use on the landing page only: 
-This Amazon Web Services (AWS) Partner Solution deploys [<product name>](<partner's marketing product page>) in the AWS Cloud so that <purpose>. This solution is for <target users> who want to <do what> so that <why>. For more information, refer to the [<product name> documentation](<URL>).
+This Partner Solution is for system administrators and IT professionals who want to deploy
+GitHub Enterprise on a virtual machine hosted in the AWS Cloud. Deploying GitHub
+Enterprise on AWS provides a configurable infrastructure for your coding and deployment
+tasks. Additional details about GitHub Enterprise are available at
+https://github.com/business[https://github.com/business].
 
-// Deploying this solution does not guarantee an organization’s compliance with any laws, certifications, policies, or other regulations. [Uncomment this statement only for solutions that relate to compliance. We'll add the corresponding reference part to the landing page and get legal approval before publishing.]
+GitHub Enterprise is a development and collaboration platform that enables developers to
+build and share software easily and effectively. Development teams of all sizes, from small
+startups to teams of thousands, use GitHub Enterprise to facilitate their software
+development and deployment tasks. 
 
-// For advanced information about the product, troubleshooting, or additional functionality, refer to the https://{partner-solution-github-org}.github.io/{partner-solution-project-name}/operational/index.html[Operational Guide^].
+GitHub Enterprise provides the following features:
 
-// For information about using this Partner Solution for migrations, refer to the https://{partner-solution-github-org}.github.io/{partner-solution-project-name}/migration/index.html[Migration Guide^].
+* *The GitHub Flow*: Developers can use the same asynchronous workflow created by
+the open source community to collaborate on projects. This workflow encourages a
+culture of experimentation without risk. For more information about the GitHub
+Flow, see the GitHub Enterprise website.
+* *Integrated platform*: At GitHub, we use GitHub Enterprise across the entire
+development process, which enables us to release and deploy our code dozens of
+times per day. This platform for continuous integration and deployment enables you
+to build and ship better software faster.
+* *Transparent collaboration*: Pull requests let developers interactively learn from
+one another during the development process. Whether they’re discussing the whole
+project or a single line of code, GitHub Enterprise displays the relevant information
+in a clean, timeline-style interface.
+* *Advanced monitoring*: You can use GitHub Pulse to see a snapshot of everything
+that’s happened in your project repository during the past week, or visit the Activity
+Dashboard to view graphs that illustrate work across projects. Advanced monitoring
+can include Simple Network Management Protocol (SNMP), collectd, and log
+forwarding on the appliance as well. For details, see the GitHub Enterprise
+documentation.
+* *Auditing and compliance*: Over time, your organization might have developed
+crucial policies around permissions and security auditing. You can use the Commit
+Amazon Web Services – GitHub Enterprise on the AWS Cloud June 2017
+Status API in GitHub Enterprise to specify the unique merge conditions necessary
+for your organization’s compliance requirements. GitHub Enterprise also provides
+in-depth monitoring and auditing for administrators. For details, see the GitHub
+Enterprise documentation.
+* *Smarter version control*: GitHub Enterprise is built on Git, which is a distributed
+version control system that supports non-linear workflows on projects of all sizes.

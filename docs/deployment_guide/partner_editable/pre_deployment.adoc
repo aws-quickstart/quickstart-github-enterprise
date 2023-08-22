@@ -1,3 +1,23 @@
 //Include any predeployment steps here, such as signing up for a Marketplace AMI or making any changes to a partner account. If there are no predeployment steps, leave this file empty.
 
 == Predeployment steps
+
+This Partner Solution requires a license to use GitHub Enterprise. You can fill out the form at
+https://enterprise.github.com/sn-trial[https://enterprise.github.com/sn-trial] to sign up for a free, 45-day trial license for GitHub
+Enterprise.
+
+The Partner Solution also requires https://git-scm.com/[Git], which is the open source version control system
+underlying GitHub Enterprise. Please install Git from https://git-scm.com/[https://git-scm.com/] before you
+deploy the Partner Solution. 
+
+==== Prepare your AWS account
+
+1. If you don’t already have an AWS account, create one at https://aws.amazon.com[https://aws.amazon.com] by following the on-screen instructions.
+2. Use the region selector in the navigation bar to choose the AWS Region where you want to deploy GitHub Enterprise on AWS.
+3. Create a https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html[key pair] in your preferred Region.
+4. If necessary, request a https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-[service limit increase] for the Amazon EC2 m3.xlarge instance type. You might need to do this if you already have an existing deployment that uses this instance type, and you think you might exceed the http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html[default limit] with this reference deployment.
+
+==== Request a GitHub Enterprise Trial License
+
+1. Fill out the form at https://enterprise.github.com/sn-trial[https://enterprise.github.com/sn-trial] to sign up for a free, 45-day trial license for GitHub Enterprise.
+2. Upload the trial license to Amazon S3 and note its URL. You’ll need to supply the location and file name of the license file when you launch the AWS CloudFormation template in the next step.
