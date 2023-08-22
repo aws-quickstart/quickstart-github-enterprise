@@ -1,6 +1,10 @@
-// Replace the content in <>
-// Briefly describe the software. Use consistent and clear branding. 
-// Include the benefits of using the software on AWS, and provide details on usage scenarios.
+This guide provides instructions for deploying the {partner-product-short-name} Partner Solution reference architecture on the AWS Cloud. http://aws.amazon.com/quickstart/[Partner Solutions] are automated reference deployments that use AWS CloudFormation templates to launch, configure, and run the AWS compute, network, storage, and other services required to deploy a specific workload on AWS. 
+
+This Partner Solution is for system administrators and IT professionals who want to deploy
+GitHub Enterprise on a virtual machine hosted in the AWS Cloud. Deploying GitHub
+Enterprise on AWS provides a configurable infrastructure for your coding and deployment
+tasks. Additional details about GitHub Enterprise are available at
+https://github.com/business[https://github.com/business].
 
 GitHub Enterprise is a development and collaboration platform that enables developers to
 build and share software easily and effectively. Development teams of all sizes, from small
