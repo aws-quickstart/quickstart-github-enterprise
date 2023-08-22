@@ -1,1 +1,0 @@
-This Quick Start requires a trial version of GitHub Enterprise, which is available for free from https://enterprise.github.com/sn-trial[GitHub].
