@@ -6,6 +6,21 @@ Conditions:
     - !Ref 'AWS::Region'
     - us-gov-west-1
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
+  ApNe1Condition: !Equals ["ap-northeast-1", !Ref AWS::Region]
+  ApNe2Condition: !Or [!Equals ["ap-northeast-2", !Ref AWS::Region], Condition: ApNe1Condition]
+  ApS1Condition: !Or [!Equals ["ap-south-1", !Ref AWS::Region], Condition: ApNe2Condition]
+  ApSe1Condition: !Or [!Equals ["ap-southeast-1", !Ref AWS::Region], Condition: ApS1Condition]
+  ApSe2Condition: !Or [!Equals ["ap-southeast-2", !Ref AWS::Region], Condition: ApSe1Condition]
+  CaC1Condition: !Or [!Equals ["ca-central-1", !Ref AWS::Region], Condition: ApSe2Condition]
+  EuC1Condition: !Or [!Equals ["eu-central-1", !Ref AWS::Region], Condition: CaC1Condition]
+  EuN1Condition: !Or [!Equals ["eu-north-1", !Ref AWS::Region], Condition: EuC1Condition]
+  EuW1Condition: !Or [!Equals ["eu-west-1", !Ref AWS::Region], Condition: EuN1Condition]
+  EuW2Condition: !Or [!Equals ["eu-west-2", !Ref AWS::Region], Condition: EuW1Condition]
+  SaE1Condition: !Or [!Equals ["sa-east-1", !Ref AWS::Region], Condition: EuW2Condition]
+  UsE1Condition: !Or [!Equals ["us-east-1", !Ref AWS::Region], Condition: SaE1Condition]
+  UsE2Condition: !Or [!Equals ["us-east-2", !Ref AWS::Region], Condition: UsE1Condition]
+  UsW1Condition: !Or [!Equals ["us-west-1", !Ref AWS::Region], Condition: UsE2Condition]
+  SupportedRegionCondition: !Or [!Equals ["us-west-2", !Ref AWS::Region], Condition: UsW1Condition]
 Metadata:
   QuickStartDocumentation:
     EntrypointName: "Launch into a new VPC"
@@ -213,6 +228,7 @@ Parameters:
 Resources:
   GHEStack:
     DependsOn: GHEVPCStack
+    Condition: SupportedRegionCondition
     Properties:
       Parameters:
         AccessCIDR: !Ref 'AccessCIDR'
@@ -241,6 +257,7 @@ Resources:
             S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
     Type: AWS::CloudFormation::Stack
   GHEVPCStack:
+    Condition: SupportedRegionCondition
     Properties:
       Parameters:
         KeyPairName: !Ref 'KeyPairName'
