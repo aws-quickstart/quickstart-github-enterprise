@@ -38,7 +38,6 @@ Metadata:
           default: Server Configuration
         Parameters:
           - InstanceType
-          - AWSRegion
           - KeyPairName
           - VolumeType
           - ProvisionedIops
@@ -60,8 +59,6 @@ Metadata:
         default: Initial Repository
       InstanceType:
         default: Instance Type
-      AWSRegion:
-        default: AWS Region
       KeyPairName:
         default: Key Pair Name
       LicenseLocation:
@@ -127,30 +124,6 @@ Parameters:
       - r3.2xlarge
       - r3.4xlarge
       - r3.8xlarge
-  AWSRegion:
-    AllowedValues:
-      - ap-northeast-1
-      - ap-northeast-2
-      - ap-south-1
-      - ap-southeast-1
-      - ap-southeast-2
-      - ca-central-1
-      - eu-central-1
-      - eu-north-1
-      - eu-west-1
-      - eu-west-2
-      - sa-east-1
-      - us-east-1
-      - us-east-2
-      - us-west-1
-      - us-west-2
-    ConstraintDescription: >-
-      must be one of following supported region ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, 
-      ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1, eu-west-2, sa-east-1, us-east-1, 
-      us-east-2, us-west-1, us-west-2
-    Default: !Ref 'AWS::Region'
-    Description: AWS Region that the Quick Start will fetch template from
-    Type: AWS::Region
     ConstraintDescription: >-
       must be a valid EC2 instance type for GitHub Enterprise: m3.xlarge, m3.2xlarge,
       m4.xlarge, m4.2xlarge, c3.2xlarge, c3.4xlarge, c3.8xlarge, c4.2xlarge, c4.4xlarge,
@@ -264,8 +237,8 @@ Resources:
       TemplateURL:
         !Sub
           - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/quickstart-github-enterprise.template'
-          - S3Region: !If [UsingDefaultBucket, !Ref AWSRegion, !Ref QSS3BucketRegion]
-            S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWSRegion}', !Ref QSS3BucketName]
+          - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+            S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
     Type: AWS::CloudFormation::Stack
   GHEVPCStack:
     Properties:
@@ -275,6 +248,6 @@ Resources:
       TemplateURL:
         !Sub
           - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/quickstart-github-enterprise-single-az-vpc.template'
-          - S3Region: !If [UsingDefaultBucket, !Ref AWSRegion, !Ref QSS3BucketRegion]
-            S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWSRegion}', !Ref QSS3BucketName]
+          - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+            S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
     Type: AWS::CloudFormation::Stack
