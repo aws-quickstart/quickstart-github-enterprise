@@ -20,7 +20,8 @@ Conditions:
   UsE1Condition: !Or [!Equals ["us-east-1", !Ref AWS::Region], Condition: SaE1Condition]
   UsE2Condition: !Or [!Equals ["us-east-2", !Ref AWS::Region], Condition: UsE1Condition]
   UsW1Condition: !Or [!Equals ["us-west-1", !Ref AWS::Region], Condition: UsE2Condition]
-  SupportedRegionCondition: !Or [!Equals ["us-west-2", !Ref AWS::Region], Condition: UsW1Condition]
+  AggregatedRegionCondition: !Or [!Equals ["us-west-2", !Ref AWS::Region], Condition: UsW1Condition]
+  SupportedRegionCondition: !And [Condition: UsingDefaultBucket, Condition: AggregatedRegionCondition]
 Metadata:
   QuickStartDocumentation:
     EntrypointName: "Launch into a new VPC"
