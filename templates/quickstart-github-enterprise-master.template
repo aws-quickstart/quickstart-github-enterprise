@@ -1,27 +1,46 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: '(qs-1nae5pfk9) GitHub Enterprise+VPC Quickstart License: Apache 2.0
   (Please do not remove) May,08,2018'
+Transform: AWS::LanguageExtensions
+Mappings:
+  SupportedRegionMap:
+    ap-northeast-1:
+      GHE: True
+    ap-northeast-2:
+      GHE: True
+    ap-northeast-3:
+      GHE: True
+    ap-south-1:
+      GHE: True
+    ap-southeast-1:
+      GHE: True
+    ap-southeast-2:
+      GHE: True
+    ca-central-1:
+      GHE: True
+    eu-central-1:
+      GHE: True
+    eu-west-1:
+      GHE: True
+    eu-west-2:
+      GHE: True
+    sa-east-1:
+      GHE: True
+    us-east-1:
+      GHE: True
+    us-east-2:
+      GHE: True
+    us-west-1:
+      GHE: True
+    us-west-2:
+      GHE: True
 Conditions:
   GovCloudCondition: !Equals
     - !Ref 'AWS::Region'
     - us-gov-west-1
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
-  ApNe1Condition: !Equals ["ap-northeast-1", !Ref AWS::Region]
-  ApNe2Condition: !Or [!Equals ["ap-northeast-2", !Ref AWS::Region], Condition: ApNe1Condition]
-  ApS1Condition: !Or [!Equals ["ap-south-1", !Ref AWS::Region], Condition: ApNe2Condition]
-  ApSe1Condition: !Or [!Equals ["ap-southeast-1", !Ref AWS::Region], Condition: ApS1Condition]
-  ApSe2Condition: !Or [!Equals ["ap-southeast-2", !Ref AWS::Region], Condition: ApSe1Condition]
-  CaC1Condition: !Or [!Equals ["ca-central-1", !Ref AWS::Region], Condition: ApSe2Condition]
-  EuC1Condition: !Or [!Equals ["eu-central-1", !Ref AWS::Region], Condition: CaC1Condition]
-  EuN1Condition: !Or [!Equals ["eu-north-1", !Ref AWS::Region], Condition: EuC1Condition]
-  EuW1Condition: !Or [!Equals ["eu-west-1", !Ref AWS::Region], Condition: EuN1Condition]
-  EuW2Condition: !Or [!Equals ["eu-west-2", !Ref AWS::Region], Condition: EuW1Condition]
-  SaE1Condition: !Or [!Equals ["sa-east-1", !Ref AWS::Region], Condition: EuW2Condition]
-  UsE1Condition: !Or [!Equals ["us-east-1", !Ref AWS::Region], Condition: SaE1Condition]
-  UsE2Condition: !Or [!Equals ["us-east-2", !Ref AWS::Region], Condition: UsE1Condition]
-  UsW1Condition: !Or [!Equals ["us-west-1", !Ref AWS::Region], Condition: UsE2Condition]
-  AggregatedRegionCondition: !Or [!Equals ["us-west-2", !Ref AWS::Region], Condition: UsW1Condition]
-  SupportedRegionCondition: !And [Condition: UsingDefaultBucket, Condition: AggregatedRegionCondition]
+  IsNotSupportedRegion: !Equals [ !FindInMap [ SupportedRegionMap, !Ref AWS::Region, GHE, DefaultValue: 'False' ], 'False' ]
+  IsSupportedRegion: !Not [!Condition IsNotSupportedRegion]
 Metadata:
   QuickStartDocumentation:
     EntrypointName: "Launch into a new VPC"
@@ -229,7 +248,7 @@ Parameters:
 Resources:
   GHEStack:
     DependsOn: GHEVPCStack
-    Condition: SupportedRegionCondition
+    Condition: IsSupportedRegion
     Properties:
       Parameters:
         AccessCIDR: !Ref 'AccessCIDR'
@@ -258,7 +277,7 @@ Resources:
             S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
     Type: AWS::CloudFormation::Stack
   GHEVPCStack:
-    Condition: SupportedRegionCondition
+    Condition: IsSupportedRegion
     Properties:
       Parameters:
         KeyPairName: !Ref 'KeyPairName'
