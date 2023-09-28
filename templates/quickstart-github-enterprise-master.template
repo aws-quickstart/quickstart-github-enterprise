@@ -40,7 +40,8 @@ Conditions:
     - us-gov-west-1
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
   IsNotSupportedRegion: !Equals [ !FindInMap [ SupportedRegionMap, !Ref AWS::Region, GHE, DefaultValue: 'False' ], 'False' ]
-  IsSupportedRegion: !Not [!Condition IsNotSupportedRegion]
+  UnSupportedDeployment: !And [!Condition UsingDefaultBucket, !Condition IsNotSupportedRegion]
+  SupportedDeployment: !Not [!Condition UnSupportedDeployment]
 Metadata:
   QuickStartDocumentation:
     EntrypointName: "Launch into a new VPC"
@@ -114,8 +115,6 @@ Metadata:
         default: Site Admin User Password
       SiteAdminUsername:
         default: Site Admin Username
-      SubnetCIDR:
-        default: Subnet CIDR
       VPCCIDR:
         default: VPC CIDR
       VolumeSize:
@@ -248,7 +247,7 @@ Parameters:
 Resources:
   GHEStack:
     DependsOn: GHEVPCStack
-    Condition: IsSupportedRegion
+    Condition: SupportedDeployment
     Properties:
       Parameters:
         AccessCIDR: !Ref 'AccessCIDR'
@@ -277,7 +276,7 @@ Resources:
             S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
     Type: AWS::CloudFormation::Stack
   GHEVPCStack:
-    Condition: IsSupportedRegion
+    Condition: SupportedDeployment
     Properties:
       Parameters:
         KeyPairName: !Ref 'KeyPairName'
