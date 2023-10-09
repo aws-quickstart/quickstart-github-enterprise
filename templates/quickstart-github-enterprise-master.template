@@ -1,11 +1,47 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: '(qs-1nae5pfk9) GitHub Enterprise+VPC Quickstart License: Apache 2.0
   (Please do not remove) May,08,2018'
+Transform: AWS::LanguageExtensions
+Mappings:
+  SupportedRegionMap:
+    ap-northeast-1:
+      GHE: True
+    ap-northeast-2:
+      GHE: True
+    ap-northeast-3:
+      GHE: True
+    ap-south-1:
+      GHE: True
+    ap-southeast-1:
+      GHE: True
+    ap-southeast-2:
+      GHE: True
+    ca-central-1:
+      GHE: True
+    eu-central-1:
+      GHE: True
+    eu-west-1:
+      GHE: True
+    eu-west-2:
+      GHE: True
+    sa-east-1:
+      GHE: True
+    us-east-1:
+      GHE: True
+    us-east-2:
+      GHE: True
+    us-west-1:
+      GHE: True
+    us-west-2:
+      GHE: True
 Conditions:
   GovCloudCondition: !Equals
     - !Ref 'AWS::Region'
     - us-gov-west-1
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
+  IsNotSupportedRegion: !Equals [ !FindInMap [ SupportedRegionMap, !Ref AWS::Region, GHE, DefaultValue: 'False' ], 'False' ]
+  UnSupportedDeployment: !And [!Condition UsingDefaultBucket, !Condition IsNotSupportedRegion]
+  SupportedDeployment: !Not [!Condition UnSupportedDeployment]
 Metadata:
   QuickStartDocumentation:
     EntrypointName: "Launch into a new VPC"
@@ -79,8 +115,6 @@ Metadata:
         default: Site Admin User Password
       SiteAdminUsername:
         default: Site Admin Username
-      SubnetCIDR:
-        default: Subnet CIDR
       VPCCIDR:
         default: VPC CIDR
       VolumeSize:
@@ -213,6 +247,7 @@ Parameters:
 Resources:
   GHEStack:
     DependsOn: GHEVPCStack
+    Condition: SupportedDeployment
     Properties:
       Parameters:
         AccessCIDR: !Ref 'AccessCIDR'
@@ -241,6 +276,7 @@ Resources:
             S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
     Type: AWS::CloudFormation::Stack
   GHEVPCStack:
+    Condition: SupportedDeployment
     Properties:
       Parameters:
         KeyPairName: !Ref 'KeyPairName'
